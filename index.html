@@ -527,13 +527,17 @@ function extractImage(item) {
           throw new Error('No feed items found');
         }
 
-        stories = data.items.slice(0, MAX_ITEMS).map(item => ({
-          title: cleanText(item.title),
-          summary: extractSummary(item),
-          pubDate: item.pubDate,
-          image: extractImage(item),
-          link: item.link
-        }));
+const fallbackImage = 'https://images.unsplash.com/photo-1547347298-4074fc3086f0?q=80&w=1600&auto=format&fit=crop';
+
+stories = data.items
+  .slice(0, MAX_ITEMS)
+  .map(item => ({
+    title: cleanText(item.title),
+    summary: extractSummary(item),
+    pubDate: item.pubDate,
+    image: extractImage(item) || fallbackImage,
+    link: item.link
+  }));
 
         console.log(stories.map(s => ({
   title: s.title,
