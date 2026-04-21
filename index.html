@@ -6,16 +6,15 @@
   <title>Sports Headlines</title>
   <style>
     :root {
-      --bg: #111315;
-      --bg-2: #171a1d;
-      --panel: #1d2126;
-      --panel-2: #20252b;
-      --line: rgba(255,255,255,0.08);
-      --text: #f5f7fa;
-      --muted: #a9b2bc;
+      --bg: #111214;
+      --bg2: #181a1d;
+      --panel: #202327;
+      --panel2: #262a2f;
+      --text: #f4f6f8;
+      --muted: #adb5bf;
       --accent: #f0c84b;
-      --accent-2: #2f353c;
-      --success: #33d09a;
+      --line: rgba(255,255,255,0.08);
+      --ok: #38d39f;
     }
 
     * { box-sizing: border-box; }
@@ -26,14 +25,14 @@
       height: 100%;
       overflow: hidden;
       background: var(--bg);
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     body {
       background:
-        radial-gradient(circle at top right, rgba(255,255,255,0.04), transparent 22%),
-        linear-gradient(180deg, #15181b 0%, #101214 100%);
+        radial-gradient(circle at top right, rgba(255,255,255,0.03), transparent 22%),
+        linear-gradient(180deg, #16181b 0%, #101113 100%);
     }
 
     .board {
@@ -41,16 +40,14 @@
       height: 100vh;
       display: grid;
       grid-template-columns: 1.62fr 1fr;
-      background: linear-gradient(135deg, #181b1f 0%, #111315 60%, #171b20 100%);
       overflow: hidden;
-      position: relative;
+      background: linear-gradient(135deg, #1c1f23 0%, #111214 62%, #191d21 100%);
     }
 
     .media {
       position: relative;
       overflow: hidden;
-      background:
-        linear-gradient(135deg, #23272c 0%, #131517 100%);
+      background: linear-gradient(135deg, #2b2f34 0%, #17191c 100%);
     }
 
     .media img {
@@ -74,12 +71,11 @@
       inset: 0;
       display: none;
       place-items: center;
-      text-align: center;
       background:
-        radial-gradient(circle at 20% 20%, rgba(240,200,75,0.12), transparent 18%),
-        linear-gradient(135deg, #24282d 0%, #17191c 100%);
-      color: rgba(255,255,255,0.18);
-      font-size: 90px;
+        radial-gradient(circle at 25% 20%, rgba(240,200,75,0.10), transparent 18%),
+        linear-gradient(135deg, #2a2d31 0%, #1b1d20 100%);
+      color: rgba(255,255,255,0.15);
+      font-size: 96px;
       font-weight: 900;
       letter-spacing: -0.04em;
     }
@@ -87,27 +83,26 @@
     .media-overlay {
       position: absolute;
       inset: 0;
-      background:
-        linear-gradient(90deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.18) 100%),
-        linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.18));
       pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.00) 44%, rgba(0,0,0,0.18) 100%),
+        linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.18));
     }
 
-    .text-panel {
+    .panel {
       position: relative;
-      padding: 34px 38px 28px;
       display: grid;
       grid-template-rows: auto 1fr auto;
-      background:
-        linear-gradient(180deg, #20252d 0%, #191d23 100%);
+      padding: 34px 38px 28px;
+      background: linear-gradient(180deg, #23272c 0%, #1a1d21 100%);
       border-left: 1px solid rgba(255,255,255,0.06);
       overflow: hidden;
     }
 
-    .text-panel::before {
+    .panel::before {
       content: "SPORTS";
       position: absolute;
-      right: -14px;
+      right: -18px;
       top: 50%;
       transform: translateY(-50%) rotate(-90deg);
       font-size: 160px;
@@ -118,12 +113,12 @@
     }
 
     .header {
+      position: relative;
+      z-index: 1;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 20px;
-      position: relative;
-      z-index: 2;
     }
 
     .title {
@@ -141,7 +136,7 @@
       padding: 12px 16px;
       border-radius: 14px 0 0 14px;
       background: linear-gradient(90deg, #f3cf57, #efbd1c);
-      color: #151515;
+      color: #171717;
       font-size: 16px;
       font-weight: 900;
       letter-spacing: 0.06em;
@@ -181,11 +176,11 @@
     }
 
     .story-wrap {
+      position: relative;
+      z-index: 1;
       display: grid;
       align-content: center;
       min-height: 0;
-      position: relative;
-      z-index: 2;
     }
 
     .story {
@@ -211,7 +206,7 @@
     .summary {
       font-size: clamp(22px, 1.7vw, 29px);
       line-height: 1.35;
-      color: #d7dde5;
+      color: #d8dde4;
       display: -webkit-box;
       -webkit-line-clamp: 5;
       -webkit-box-orient: vertical;
@@ -221,7 +216,7 @@
 
     .footer {
       position: relative;
-      z-index: 2;
+      z-index: 1;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -239,6 +234,7 @@
       display: inline-flex;
       align-items: center;
       gap: 12px;
+      min-width: 0;
     }
 
     .meta-left::before {
@@ -246,14 +242,15 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: var(--success);
-      box-shadow: 0 0 0 4px rgba(51,208,154,0.14);
+      background: var(--ok);
+      box-shadow: 0 0 0 4px rgba(56,211,159,0.14);
     }
 
     .dots {
       display: flex;
       gap: 10px;
       align-items: center;
+      justify-content: center;
       flex-wrap: wrap;
     }
 
@@ -275,8 +272,8 @@
       display: grid;
       place-items: center;
       height: 100%;
-      text-align: center;
       padding: 40px;
+      text-align: center;
       font-size: 24px;
       font-weight: 700;
     }
@@ -286,21 +283,10 @@
     }
 
     @media (max-width: 1100px) {
-      .board {
-        grid-template-columns: 1.35fr 1fr;
-      }
-
-      .headline {
-        font-size: clamp(36px, 4vw, 56px);
-      }
-
-      .summary {
-        font-size: clamp(18px, 1.5vw, 24px);
-      }
-
-      .text-panel {
-        padding: 28px 28px 22px;
-      }
+      .board { grid-template-columns: 1.35fr 1fr; }
+      .panel { padding: 28px 28px 22px; }
+      .headline { font-size: clamp(36px, 4vw, 56px); }
+      .summary { font-size: clamp(18px, 1.5vw, 24px); }
     }
   </style>
 </head>
@@ -311,7 +297,7 @@
       <div class="media-overlay"></div>
     </section>
 
-    <aside class="text-panel">
+    <aside class="panel">
       <div class="header">
         <div class="title">Sports Headlines</div>
         <div class="updated">
@@ -333,9 +319,7 @@
   </main>
 
   <script>
-    // Put your actual worker URL here:
-    const API_URL = "https://YOUR-WORKER-URL.workers.dev/api/espn";
-
+    const DATA_URL = "./data/stories.json";
     const ROTATE_MS = 30000;
     const REFRESH_MS = 5 * 60 * 1000;
 
@@ -350,6 +334,15 @@
     let stories = [];
     let currentIndex = 0;
     let rotateTimer = null;
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
 
     function relativeTime(dateString) {
       const then = new Date(dateString).getTime();
@@ -402,14 +395,14 @@
 
       storyWrap.innerHTML = `
         <article class="story active">
-          <h1 class="headline">${escapeHtml(story.title || "")}</h1>
+          <h1 class="headline">${escapeHtml(story.title)}</h1>
           <div class="summary">${escapeHtml(story.summary || "")}</div>
         </article>
       `;
 
-      metaTimeEl.textContent = relativeTime(story.pubDate);
+      metaTimeEl.textContent = relativeTime(story.pubDateIso || story.pubDate);
       sourceTextEl.textContent = `Source: ${story.source || "ESPN"}`;
-      updatedEl.textContent = `Updated ${relativeTime(stories[0]?.pubDate)}`;
+      updatedEl.textContent = `Updated ${relativeTime(stories[0]?.pubDateIso || stories[0]?.pubDate)}`;
 
       renderDots();
     }
@@ -426,8 +419,7 @@
     async function loadFeed() {
       try {
         updatedEl.textContent = "Updating…";
-
-        const res = await fetch(API_URL, { cache: "no-store" });
+        const res = await fetch(`${DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         const data = await res.json();
@@ -453,15 +445,6 @@
         sourceTextEl.textContent = "Source unavailable";
         updatedEl.textContent = "Feed unavailable";
       }
-    }
-
-    function escapeHtml(str) {
-      return str
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
     }
 
     loadFeed();
