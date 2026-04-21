@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sports Headlines Signage</title>
+  <title>Sports Headlines</title>
   <style>
     :root {
-      --bg: #0a1320;
-      --panel: rgba(8, 24, 43, 0.94);
-      --panel-2: rgba(14, 35, 61, 0.9);
+      --bg: #111315;
+      --bg-2: #171a1d;
+      --panel: #1d2126;
+      --panel-2: #20252b;
       --line: rgba(255,255,255,0.08);
-      --text: #f3f7fb;
-      --muted: #9eb1cb;
-      --accent: #f2c94c;
-      --accent-2: #295fff;
-      --shadow: 0 18px 40px rgba(0,0,0,.28);
-      --radius: 24px;
-      --card-radius: 20px;
+      --text: #f5f7fa;
+      --muted: #a9b2bc;
+      --accent: #f0c84b;
+      --accent-2: #2f353c;
+      --success: #33d09a;
     }
 
     * { box-sizing: border-box; }
@@ -33,48 +32,25 @@
 
     body {
       background:
-        radial-gradient(circle at top right, rgba(41,95,255,.14), transparent 28%),
-        linear-gradient(180deg, #0d1625 0%, #08111b 100%);
+        radial-gradient(circle at top right, rgba(255,255,255,0.04), transparent 22%),
+        linear-gradient(180deg, #15181b 0%, #101214 100%);
     }
 
     .board {
       width: 100vw;
       height: 100vh;
-      overflow: hidden;
-      position: relative;
       display: grid;
       grid-template-columns: 1.62fr 1fr;
-      background: linear-gradient(135deg, #13233a 0%, #0d1828 58%, #11213a 100%);
-      isolation: isolate;
-    }
-
-    .board::before,
-    .board::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .board::before {
-      background:
-        linear-gradient(135deg, rgba(255,255,255,.03), transparent 28%),
-        radial-gradient(circle at 15% 10%, rgba(242,201,76,.08), transparent 18%),
-        radial-gradient(circle at 85% 90%, rgba(41,95,255,.12), transparent 24%);
-      z-index: -2;
-    }
-
-    .board::after {
-      background:
-        linear-gradient(125deg, transparent 0 72%, rgba(242,201,76,.14) 72.2% 72.5%, transparent 72.7%),
-        linear-gradient(160deg, transparent 0 84%, rgba(41,95,255,.22) 84.1% 84.4%, transparent 84.6%);
-      z-index: -1;
+      background: linear-gradient(135deg, #181b1f 0%, #111315 60%, #171b20 100%);
+      overflow: hidden;
+      position: relative;
     }
 
     .media {
       position: relative;
       overflow: hidden;
-      background: #0b1320;
+      background:
+        linear-gradient(135deg, #23272c 0%, #131517 100%);
     }
 
     .media img {
@@ -83,78 +59,77 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: saturate(1.06) contrast(1.05);
       opacity: 0;
       transform: scale(1.03);
-      transition: opacity 700ms ease, transform 8000ms ease;
+      transition: opacity 700ms ease, transform 30s linear;
     }
 
     .media img.active {
       opacity: 1;
-      transform: scale(1.0);
+      transform: scale(1);
     }
 
-    .media::after {
-      content: "";
+    .media-fallback {
+      position: absolute;
+      inset: 0;
+      display: none;
+      place-items: center;
+      text-align: center;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(240,200,75,0.12), transparent 18%),
+        linear-gradient(135deg, #24282d 0%, #17191c 100%);
+      color: rgba(255,255,255,0.18);
+      font-size: 90px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .media-overlay {
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(90deg, rgba(7,12,20,.06) 0%, rgba(7,12,20,.00) 38%, rgba(7,12,20,.18) 100%),
-        linear-gradient(180deg, rgba(7,12,20,.06), rgba(7,12,20,.18));
+        linear-gradient(90deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.18) 100%),
+        linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.18));
       pointer-events: none;
     }
 
     .text-panel {
       position: relative;
+      padding: 34px 38px 28px;
       display: grid;
       grid-template-rows: auto 1fr auto;
-      padding: 34px 34px 26px;
       background:
-        radial-gradient(circle at 80% 12%, rgba(255,255,255,.05), transparent 22%),
-        radial-gradient(circle at 20% 80%, rgba(41,95,255,.14), transparent 26%),
-        linear-gradient(180deg, rgba(11,28,76,.95) 0%, rgba(8,20,52,.96) 100%);
-      border-left: 4px solid rgba(8,14,26,.55);
+        linear-gradient(180deg, #20252d 0%, #191d23 100%);
+      border-left: 1px solid rgba(255,255,255,0.06);
       overflow: hidden;
     }
 
     .text-panel::before {
       content: "SPORTS";
       position: absolute;
-      right: -18px;
+      right: -14px;
       top: 50%;
       transform: translateY(-50%) rotate(-90deg);
-      font-size: 150px;
+      font-size: 160px;
       font-weight: 900;
-      letter-spacing: -.06em;
-      color: rgba(255,255,255,.05);
+      letter-spacing: -0.06em;
+      color: rgba(255,255,255,0.04);
       pointer-events: none;
-    }
-
-    .text-panel::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(120deg, transparent 0 70%, rgba(242,201,76,.22) 70.2% 70.45%, transparent 70.7%),
-        linear-gradient(120deg, transparent 0 84%, rgba(242,201,76,.10) 84.2% 84.35%, transparent 84.5%);
-      pointer-events: none;
-      opacity: .9;
     }
 
     .header {
-      position: relative;
-      z-index: 1;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 18px;
-      margin-bottom: 22px;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      z-index: 2;
     }
 
-    .kicker {
-      font-size: 21px;
+    .title {
+      font-size: 22px;
       font-weight: 900;
-      letter-spacing: .16em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--accent);
     }
@@ -163,13 +138,13 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: linear-gradient(90deg, #f3cf57, #efbd1c);
-      color: #111827;
       padding: 12px 16px;
       border-radius: 14px 0 0 14px;
+      background: linear-gradient(90deg, #f3cf57, #efbd1c);
+      color: #151515;
+      font-size: 16px;
       font-weight: 900;
-      font-size: 18px;
-      letter-spacing: .04em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       white-space: nowrap;
     }
@@ -177,8 +152,8 @@
     .updated-dot {
       width: 14px;
       height: 14px;
-      border-radius: 50%;
       border: 3px solid currentColor;
+      border-radius: 50%;
       position: relative;
       flex: 0 0 auto;
     }
@@ -189,7 +164,8 @@
       width: 2px;
       height: 4px;
       background: currentColor;
-      left: 50%; top: 1px;
+      left: 50%;
+      top: 1px;
       transform: translateX(-50%);
     }
 
@@ -199,21 +175,22 @@
       width: 4px;
       height: 2px;
       background: currentColor;
-      right: 1px; top: 50%;
+      right: 1px;
+      top: 50%;
       transform: translateY(-50%);
     }
 
     .story-wrap {
-      position: relative;
-      z-index: 1;
       display: grid;
       align-content: center;
       min-height: 0;
+      position: relative;
+      z-index: 2;
     }
 
     .story {
       opacity: 0;
-      transform: translateY(16px);
+      transform: translateY(14px);
       transition: opacity 450ms ease, transform 450ms ease;
     }
 
@@ -222,61 +199,39 @@
       transform: translateY(0);
     }
 
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 12px;
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 999px;
-      background: rgba(255,255,255,.04);
-      color: #b9c7db;
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      margin-bottom: 18px;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 0 4px rgba(242,201,76,.12);
-    }
-
     .headline {
-      font-size: clamp(44px, 4.25vw, 66px);
-      line-height: 1.06;
+      margin: 0 0 22px;
+      font-size: clamp(48px, 4.2vw, 70px);
+      line-height: 1.03;
       font-weight: 900;
-      letter-spacing: -.045em;
-      margin: 0 0 18px;
+      letter-spacing: -0.05em;
       text-wrap: balance;
     }
 
     .summary {
-      font-size: clamp(21px, 1.8vw, 28px);
-      line-height: 1.34;
-      color: #d5deea;
-      max-width: 95%;
+      font-size: clamp(22px, 1.7vw, 29px);
+      line-height: 1.35;
+      color: #d7dde5;
       display: -webkit-box;
       -webkit-line-clamp: 5;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      max-width: 96%;
     }
 
-    .meta-row {
+    .footer {
+      position: relative;
+      z-index: 2;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      margin-top: 28px;
-      color: #8fa4c5;
-      font-size: 17px;
-      font-weight: 800;
-      letter-spacing: .08em;
+      align-items: center;
+      gap: 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
@@ -291,19 +246,8 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #31d0aa;
-      box-shadow: 0 0 0 4px rgba(49,208,170,.14);
-    }
-
-    .pager {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(255,255,255,.08);
+      background: var(--success);
+      box-shadow: 0 0 0 4px rgba(51,208,154,0.14);
     }
 
     .dots {
@@ -314,10 +258,10 @@
     }
 
     .dot {
-      width: 11px;
-      height: 11px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background: rgba(255,255,255,.18);
+      background: rgba(255,255,255,0.16);
       transition: transform 250ms ease, background 250ms ease;
     }
 
@@ -326,81 +270,82 @@
       transform: scale(1.2);
     }
 
-    .count {
-      font-size: 16px;
-      font-weight: 900;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: #afc0d8;
-    }
-
     .loading,
     .error {
       display: grid;
       place-items: center;
+      height: 100%;
       text-align: center;
       padding: 40px;
-      height: 100%;
-    }
-
-    .loading {
-      color: #d6deeb;
       font-size: 24px;
       font-weight: 700;
     }
 
     .error {
-      color: #ffd4b3;
-      font-size: 24px;
-      font-weight: 700;
+      color: #ffd3b3;
     }
 
     @media (max-width: 1100px) {
-      .board { grid-template-columns: 1.35fr 1fr; }
-      .text-panel { padding: 28px 26px 22px; }
-      .headline { font-size: clamp(34px, 4vw, 52px); }
-      .summary { font-size: clamp(18px, 1.65vw, 24px); }
+      .board {
+        grid-template-columns: 1.35fr 1fr;
+      }
+
+      .headline {
+        font-size: clamp(36px, 4vw, 56px);
+      }
+
+      .summary {
+        font-size: clamp(18px, 1.5vw, 24px);
+      }
+
+      .text-panel {
+        padding: 28px 28px 22px;
+      }
     }
   </style>
 </head>
 <body>
   <main class="board">
     <section class="media" id="mediaPanel">
-      <div class="loading" id="mediaFallback">Loading sports headlines…</div>
+      <div class="media-fallback" id="mediaFallback">SPORTS</div>
+      <div class="media-overlay"></div>
     </section>
 
     <aside class="text-panel">
       <div class="header">
-        <div class="kicker">Sports Headlines</div>
-        <div class="updated"><span class="updated-dot"></span><span id="updatedText">Updating…</span></div>
+        <div class="title">Sports Headlines</div>
+        <div class="updated">
+          <span class="updated-dot"></span>
+          <span id="updatedText">Updating…</span>
+        </div>
       </div>
 
       <div class="story-wrap" id="storyWrap">
         <div class="loading">Loading sports headlines…</div>
       </div>
 
-      <div class="pager">
+      <div class="footer">
+        <div class="meta-left" id="metaTime">Live</div>
         <div class="dots" id="dots"></div>
-        <div class="count" id="countText">0 / 0</div>
+        <div id="sourceText">Source: ESPN</div>
       </div>
     </aside>
   </main>
 
   <script>
-    const FEED_URL = 'https://www.espn.com/espn/rss/news';
-    const MAX_ITEMS = 10;
-    const ROTATE_MS = 8000;
+    // Put your actual worker URL here:
+    const API_URL = "https://YOUR-WORKER-URL.workers.dev/api/espn";
+
+    const ROTATE_MS = 30000;
     const REFRESH_MS = 5 * 60 * 1000;
 
-    // Fine for testing / GitHub Pages. For production reliability, use your own proxy.
-    const JSON_FEED_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(FEED_URL)}`;
-
-    const mediaPanel = document.getElementById('mediaPanel');
-    const mediaFallback = document.getElementById('mediaFallback');
-    const storyWrap = document.getElementById('storyWrap');
-    const dotsEl = document.getElementById('dots');
-    const countEl = document.getElementById('countText');
-    const updatedEl = document.getElementById('updatedText');
+    const mediaPanel = document.getElementById("mediaPanel");
+    const mediaFallback = document.getElementById("mediaFallback");
+    const storyWrap = document.getElementById("storyWrap");
+    const dotsEl = document.getElementById("dots");
+    const updatedEl = document.getElementById("updatedText");
+    const metaTimeEl = document.getElementById("metaTime");
+    const sourceTextEl = document.getElementById("sourceText");
 
     let stories = [];
     let currentIndex = 0;
@@ -408,110 +353,71 @@
 
     function relativeTime(dateString) {
       const then = new Date(dateString).getTime();
-      if (Number.isNaN(then)) return 'Recently';
+      if (Number.isNaN(then)) return "Recently";
+
       const diffMs = Date.now() - then;
       const minutes = Math.max(1, Math.floor(diffMs / 60000));
+
       if (minutes < 60) return `${minutes} min ago`;
       const hours = Math.floor(minutes / 60);
-      if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+      if (hours < 24) return `${hours} hour${hours === 1 ? "" : "s"} ago`;
       const days = Math.floor(hours / 24);
-      return `${days} day${days === 1 ? '' : 's'} ago`;
+      return `${days} day${days === 1 ? "" : "s"} ago`;
     }
 
-    function cleanText(html) {
-      const tmp = document.createElement('div');
-      tmp.innerHTML = html || '';
-      return (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim();
-    }
+    function preloadImages(items) {
+      mediaPanel.querySelectorAll("img").forEach((img) => img.remove());
 
-function extractImage(item) {
-  if (item.thumbnail) return item.thumbnail;
-  if (item.enclosure && item.enclosure.link) return item.enclosure.link;
-
-  if (Array.isArray(item.enclosures) && item.enclosures.length) {
-    const imgEnclosure = item.enclosures.find(e => (e.type || "").startsWith("image/"));
-    if (imgEnclosure?.link) return imgEnclosure.link;
-  }
-
-  if (item.content) {
-    const doc = new DOMParser().parseFromString(item.content, 'text/html');
-    const img = doc.querySelector('img');
-    if (img?.src) return img.src;
-  }
-
-  if (item.description) {
-    const doc = new DOMParser().parseFromString(item.description, 'text/html');
-    const img = doc.querySelector('img');
-    if (img?.src) return img.src;
-  }
-
-  return '';
-}
-
-    function extractSummary(item) {
-      const html = item.description || item.content || '';
-      const doc = new DOMParser().parseFromString(html, 'text/html');
-      const paragraphs = Array.from(doc.querySelectorAll('p')).map(p => p.textContent.trim()).filter(Boolean);
-      if (paragraphs.length) return paragraphs.join(' ');
-      const full = cleanText(html);
-      return full || 'Latest sports update from the feed.';
-    }
-
-    function preloadMedia(items) {
-      mediaPanel.querySelectorAll('img').forEach(img => img.remove());
-      let hasImage = false;
       items.forEach((item, index) => {
         if (!item.image) return;
-        const img = document.createElement('img');
+        const img = document.createElement("img");
         img.src = item.image;
-        img.alt = item.title;
-        img.loading = index === 0 ? 'eager' : 'lazy';
+        img.alt = item.title || "";
+        img.loading = index === 0 ? "eager" : "lazy";
         mediaPanel.appendChild(img);
-        hasImage = true;
       });
-      mediaFallback.style.display = hasImage ? 'none' : 'grid';
     }
 
     function renderDots() {
-      dotsEl.innerHTML = '';
+      dotsEl.innerHTML = "";
       stories.forEach((_, index) => {
-        const dot = document.createElement('span');
-        dot.className = `dot${index === currentIndex ? ' active' : ''}`;
+        const dot = document.createElement("span");
+        dot.className = `dot${index === currentIndex ? " active" : ""}`;
         dotsEl.appendChild(dot);
       });
     }
 
     function showStory(index) {
       if (!stories.length) return;
+
       currentIndex = index % stories.length;
       const story = stories[currentIndex];
 
-      const images = Array.from(mediaPanel.querySelectorAll('img'));
+      const images = Array.from(mediaPanel.querySelectorAll("img"));
       images.forEach((img, idx) => {
-        img.classList.toggle('active', idx === currentIndex);
+        img.classList.toggle("active", idx === currentIndex);
       });
-      mediaFallback.style.display = story.image ? 'none' : 'grid';
+
+      mediaFallback.style.display = story.image ? "none" : "grid";
 
       storyWrap.innerHTML = `
         <article class="story active">
-          <div class="eyebrow">Feed story ${currentIndex + 1}</div>
-          <h1 class="headline">${story.title}</h1>
-          <div class="summary">${story.summary}</div>
-          <div class="meta-row">
-            <div class="meta-left">${relativeTime(story.pubDate)}</div>
-            <div>Source: ESPN</div>
-          </div>
+          <h1 class="headline">${escapeHtml(story.title || "")}</h1>
+          <div class="summary">${escapeHtml(story.summary || "")}</div>
         </article>
       `;
 
-      countEl.textContent = `${currentIndex + 1} / ${stories.length}`;
+      metaTimeEl.textContent = relativeTime(story.pubDate);
+      sourceTextEl.textContent = `Source: ${story.source || "ESPN"}`;
       updatedEl.textContent = `Updated ${relativeTime(stories[0]?.pubDate)}`;
+
       renderDots();
     }
 
     function startRotation() {
       clearInterval(rotateTimer);
       if (stories.length <= 1) return;
+
       rotateTimer = setInterval(() => {
         showStory((currentIndex + 1) % stories.length);
       }, ROTATE_MS);
@@ -519,44 +425,43 @@ function extractImage(item) {
 
     async function loadFeed() {
       try {
-        updatedEl.textContent = 'Updating…';
-        const res = await fetch(JSON_FEED_URL, { cache: 'no-store' });
+        updatedEl.textContent = "Updating…";
+
+        const res = await fetch(API_URL, { cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
         const data = await res.json();
-        if (!data.items || !Array.isArray(data.items) || !data.items.length) {
-          throw new Error('No feed items found');
+        if (!data.stories || !Array.isArray(data.stories) || !data.stories.length) {
+          throw new Error("No stories returned");
         }
 
-const fallbackImage = 'https://images.unsplash.com/photo-1547347298-4074fc3086f0?q=80&w=1600&auto=format&fit=crop';
+        stories = data.stories.filter(s => s.title && s.link);
 
-stories = data.items
-  .slice(0, MAX_ITEMS)
-  .map(item => ({
-    title: cleanText(item.title),
-    summary: extractSummary(item),
-    pubDate: item.pubDate,
-    image: extractImage(item) || fallbackImage,
-    link: item.link
-  }));
+        if (!stories.length) {
+          throw new Error("No usable stories returned");
+        }
 
-        console.log(stories.map(s => ({
-  title: s.title,
-  image: s.image
-})));
-
-        if (!stories.length) throw new Error('No usable stories found');
-
-        preloadMedia(stories);
+        preloadImages(stories);
         showStory(0);
         startRotation();
       } catch (err) {
         console.error(err);
-        mediaFallback.style.display = 'grid';
-        storyWrap.innerHTML = '<div class="error">Could not load sports headlines. Check the feed proxy or network access.</div>';
-        updatedEl.textContent = 'Feed unavailable';
-        dotsEl.innerHTML = '';
-        countEl.textContent = '0 / 0';
+        mediaFallback.style.display = "grid";
+        storyWrap.innerHTML = `<div class="error">Could not load sports headlines.</div>`;
+        dotsEl.innerHTML = "";
+        metaTimeEl.textContent = "Unavailable";
+        sourceTextEl.textContent = "Source unavailable";
+        updatedEl.textContent = "Feed unavailable";
       }
+    }
+
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
     }
 
     loadFeed();
