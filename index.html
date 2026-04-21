@@ -323,7 +323,6 @@
     const mediaFallback = document.getElementById("mediaFallback");
     const storyWrap = document.getElementById("storyWrap");
     const dotsEl = document.getElementById("dots");
-    const updatedEl = document.getElementById("updatedText");
     const metaTimeEl = document.getElementById("metaTime");
     const sourceTextEl = document.getElementById("sourceText");
 
@@ -398,7 +397,6 @@
 
       metaTimeEl.textContent = relativeTime(story.pubDateIso || story.pubDate);
       sourceTextEl.textContent = `Source: ${story.source || "ESPN"}`;
-      updatedEl.textContent = `Updated ${relativeTime(stories[0]?.pubDateIso || stories[0]?.pubDate)}`;
 
       renderDots();
     }
@@ -414,7 +412,6 @@
 
     async function loadFeed() {
       try {
-        updatedEl.textContent = "Updating…";
         const res = await fetch(`${DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
@@ -439,7 +436,6 @@
         dotsEl.innerHTML = "";
         metaTimeEl.textContent = "Unavailable";
         sourceTextEl.textContent = "Source unavailable";
-        updatedEl.textContent = "Feed unavailable";
       }
     }
 
