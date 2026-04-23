@@ -1,14 +1,16 @@
 from __future__ import annotations
 
+import html
 import json
 import os
 import re
 import sys
 import time
-import html
+import traceback
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 from typing import Any
+from urllib.parse import urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -46,14 +48,34 @@ def strip_html(value: str | None) -> str:
 def fetch_feed_xml() -> str:
     response = requests.get(FEED_URL, headers=HEADERS, timeout=TIMEOUT)
     response.raise_for_status()
-    return response.text
+
+    content_type = response.headers.get("content-type", "").lower()
+    text = response.text.strip()
+    head = text[:500].lower()
+
+    if "xml" not in content_type and not text.startswith("<?xml") and "<rss" not in head:
+        raise RuntimeError(
+            "Feed did not return RSS XML. "
+            f"status={response.status_code}, "
+            f"content-type={content_type}, "
+            f"body-start={text[:200]!r}"
+        )
+
+    return text
 
 
 def parse_feed(xml_text: str) -> list[dict[str, Any]]:
-    root = ET.fromstring(xml_text)
+    try:
+        root = ET.fromstring(xml_text)
+    except ET.ParseError as exc:
+        preview = xml_text[:300].replace("\n", " ")
+        raise RuntimeError(
+            f"Failed to parse feed XML: {exc}; body-start={preview!r}"
+        ) from exc
+
     channel = root.find("channel")
     if channel is None:
-        return []
+        raise RuntimeError("RSS feed parsed, but no <channel> element was found")
 
     items: list[dict[str, Any]] = []
     for item in channel.findall("item")[:MAX_ITEMS]:
@@ -71,18 +93,23 @@ def parse_feed(xml_text: str) -> list[dict[str, Any]]:
                 "summary": description_text,
             }
         )
+
     return items
 
 
-def extract_meta(soup: BeautifulSoup, *, prop: str | None = None, name: str | None = None) -> str:
+def extract_meta(
+    soup: BeautifulSoup, *, prop: str | None = None, name: str | None = None
+) -> str:
     if prop:
         tag = soup.find("meta", attrs={"property": prop})
         if tag and tag.get("content"):
             return clean_text(tag["content"])
+
     if name:
         tag = soup.find("meta", attrs={"name": name})
         if tag and tag.get("content"):
             return clean_text(tag["content"])
+
     return ""
 
 
@@ -94,7 +121,6 @@ def absolutize(url: str, base: str) -> str:
     if url.startswith("//"):
         return "https:" + url
     if url.startswith("/"):
-        from urllib.parse import urlparse
         parts = urlparse(base)
         return f"{parts.scheme}://{parts.netloc}{url}"
     return url
@@ -102,8 +128,10 @@ def absolutize(url: str, base: str) -> str:
 
 def enrich_story(story: dict[str, Any]) -> dict[str, Any]:
     link = story.get("link", "")
+    story["source"] = "ESPN"
+    story["image"] = story.get("image", "")
+
     if not link:
-        story["image"] = ""
         return story
 
     try:
@@ -123,12 +151,10 @@ def enrich_story(story: dict[str, Any]) -> dict[str, Any]:
 
         story["image"] = absolutize(image, link)
         story["summary"] = clean_text(summary) or story.get("summary", "")
-        story["source"] = "ESPN"
-        return story
-    except Exception:
-        story["image"] = ""
-        story["source"] = "ESPN"
-        return story
+    except Exception as exc:
+        print(f"WARNING: enrich failed for {link}: {exc}", file=sys.stderr)
+
+    return story
 
 
 def to_iso(pub_date: str) -> str:
@@ -166,6 +192,7 @@ def main() -> int:
         print(f"Wrote {OUTPUT_PATH}")
         return 0
     except Exception as exc:
+        traceback.print_exc()
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
 
