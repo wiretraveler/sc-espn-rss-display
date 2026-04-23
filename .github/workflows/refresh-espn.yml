@@ -1,5 +1,9 @@
 name: Refresh ESPN feed
 
+concurrency:
+  group: refresh-espn
+  cancel-in-progress: true
+
 on:
   workflow_dispatch:
   schedule:
@@ -47,7 +51,12 @@ jobs:
           set -euxo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git status
           git add data/stories.json
-          git diff --staged --quiet || git commit -m "Update ESPN stories"
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "Update ESPN stories"
           git push
