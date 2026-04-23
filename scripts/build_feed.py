@@ -19,6 +19,7 @@ FEED_URL = "https://www.espn.com/espn/rss/news"
 MAX_ITEMS = 5
 OUTPUT_PATH = "data/stories.json"
 TIMEOUT = 20
+FEED_RETRIES = 3
 
 HEADERS = {
     "User-Agent": (
@@ -46,22 +47,36 @@ def strip_html(value: str | None) -> str:
 
 
 def fetch_feed_xml() -> str:
-    response = requests.get(FEED_URL, headers=HEADERS, timeout=TIMEOUT)
-    response.raise_for_status()
+    last_exc: Exception | None = None
 
-    content_type = response.headers.get("content-type", "").lower()
-    text = response.text.strip()
-    head = text[:500].lower()
+    for attempt in range(1, FEED_RETRIES + 1):
+        try:
+            response = requests.get(FEED_URL, headers=HEADERS, timeout=TIMEOUT)
+            response.raise_for_status()
 
-    if "xml" not in content_type and not text.startswith("<?xml") and "<rss" not in head:
-        raise RuntimeError(
-            "Feed did not return RSS XML. "
-            f"status={response.status_code}, "
-            f"content-type={content_type}, "
-            f"body-start={text[:200]!r}"
-        )
+            content_type = response.headers.get("content-type", "").lower()
+            text = response.text.strip()
+            head = text[:500].lower()
 
-    return text
+            if "xml" not in content_type and not text.startswith("<?xml") and "<rss" not in head:
+                raise RuntimeError(
+                    "Feed did not return RSS XML. "
+                    f"status={response.status_code}, "
+                    f"content-type={content_type}, "
+                    f"body-start={text[:200]!r}"
+                )
+
+            return text
+        except Exception as exc:
+            last_exc = exc
+            print(
+                f"WARNING: feed fetch attempt {attempt}/{FEED_RETRIES} failed: {exc}",
+                file=sys.stderr,
+            )
+            if attempt < FEED_RETRIES:
+                time.sleep(2 * attempt)
+
+    raise RuntimeError(f"Failed to fetch ESPN feed after {FEED_RETRIES} attempts: {last_exc}")
 
 
 def parse_feed(xml_text: str) -> list[dict[str, Any]]:
@@ -166,6 +181,18 @@ def to_iso(pub_date: str) -> str:
         return pub_date
 
 
+def load_existing_payload() -> dict[str, Any] | None:
+    if not os.path.exists(OUTPUT_PATH):
+        return None
+
+    try:
+        with open(OUTPUT_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as exc:
+        print(f"WARNING: could not read existing {OUTPUT_PATH}: {exc}", file=sys.stderr)
+        return None
+
+
 def build() -> dict[str, Any]:
     xml_text = fetch_feed_xml()
     stories = parse_feed(xml_text)
@@ -175,7 +202,7 @@ def build() -> dict[str, Any]:
         enriched_story = enrich_story(story)
         enriched_story["pubDateIso"] = to_iso(enriched_story.get("pubDate", ""))
         enriched.append(enriched_story)
-        time.sleep(0.4)
+        time.sleep(0.6)
 
     return {
         "generatedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -194,6 +221,15 @@ def main() -> int:
     except Exception as exc:
         traceback.print_exc()
         print(f"ERROR: {exc}", file=sys.stderr)
+
+        existing = load_existing_payload()
+        if existing is not None:
+            print(
+                f"WARNING: keeping existing {OUTPUT_PATH} so workflow does not fail",
+                file=sys.stderr,
+            )
+            return 0
+
         return 1
 
 
