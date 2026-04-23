@@ -14,25 +14,40 @@ jobs:
 
     steps:
       - name: Check out repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
 
       - name: Install dependencies
         run: |
+          python -V
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4 lxml
 
       - name: Build stories JSON
-        run: python scripts/build_feed.py
+        run: |
+          set -euxo pipefail
+          python scripts/build_feed.py
+          ls -lah
+          ls -lah data
+          test -f data/stories.json
+          python - <<'PY'
+          import json
+          with open("data/stories.json", "r", encoding="utf-8") as f:
+              data = json.load(f)
+          print("stories.json OK")
+          print(type(data).__name__)
+          PY
 
       - name: Commit updated JSON
         run: |
+          set -euxo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git status
           git add data/stories.json
           git diff --staged --quiet || git commit -m "Update ESPN stories"
           git push
