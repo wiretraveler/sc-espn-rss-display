@@ -14,7 +14,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
-FEED_URL = "https://www.espn.com/"
+FEED_URL = "https://wandering-cloud-adf4.northport-public-school.workers.dev"
 MAX_ITEMS = 5
 OUTPUT_PATH = "data/stories.json"
 TIMEOUT = 30
