@@ -7,7 +7,6 @@ import re
 import sys
 import time
 import traceback
-import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 from typing import Any
 from urllib.parse import urlparse
@@ -15,7 +14,7 @@ from urllib.parse import urlparse
 import requests
 from bs4 import BeautifulSoup
 
-FEED_URL = "https://www.espn.com/espn/rss/news"
+FEED_URL = "https://site.api.espn.com/apis/site/v2/sports/news"
 MAX_ITEMS = 5
 OUTPUT_PATH = "data/stories.json"
 TIMEOUT = 20
@@ -26,18 +25,15 @@ HEADERS = {
         "Mozilla/5.0 (X11; Linux x86_64) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/123.0 Safari/537.36"
-    )
-}
-
-NS = {
-    "media": "http://search.yahoo.com/mrss/",
+    ),
+    "Accept": "application/json,text/plain,*/*",
 }
 
 
 def clean_text(value: str | None) -> str:
     if not value:
         return ""
-    text = html.unescape(value)
+    text = html.unescape(str(value))
     text = re.sub(r"\s+", " ", text).strip()
     return text
 
@@ -63,7 +59,7 @@ def absolutize(url: str, base: str) -> str:
     return url
 
 
-def fetch_feed_xml() -> str:
+def fetch_feed_json() -> dict[str, Any]:
     last_exc: Exception | None = None
 
     for attempt in range(1, FEED_RETRIES + 1):
@@ -73,88 +69,129 @@ def fetch_feed_xml() -> str:
 
             content_type = response.headers.get("content-type", "").lower()
             text = response.text.strip()
-            head = text[:500].lower()
 
-            if "xml" not in content_type and not text.startswith("<?xml") and "<rss" not in head:
+            if "json" not in content_type and not text.startswith("{"):
                 raise RuntimeError(
-                    "Feed did not return RSS XML. "
+                    "ESPN API did not return JSON. "
                     f"status={response.status_code}, "
                     f"content-type={content_type}, "
                     f"body-start={text[:200]!r}"
                 )
 
-            return text
+            data = response.json()
+
+            if "articles" not in data:
+                raise RuntimeError(
+                    "ESPN API response missing 'articles'. "
+                    f"keys={list(data.keys())}"
+                )
+
+            return data
 
         except Exception as exc:
             last_exc = exc
             print(
-                f"WARNING: feed fetch attempt {attempt}/{FEED_RETRIES} failed: {exc}",
+                f"WARNING: API fetch attempt {attempt}/{FEED_RETRIES} failed: {exc}",
                 file=sys.stderr,
             )
             if attempt < FEED_RETRIES:
                 time.sleep(2 * attempt)
 
-    raise RuntimeError(f"Failed to fetch ESPN feed after {FEED_RETRIES} attempts: {last_exc}")
+    raise RuntimeError(f"Failed to fetch ESPN API after {FEED_RETRIES} attempts: {last_exc}")
 
 
-def get_rss_image(item: ET.Element, base_link: str) -> str:
-    enclosure = item.find("enclosure")
-    if enclosure is not None:
-        url = enclosure.attrib.get("url", "")
-        if url:
-            return absolutize(clean_text(url), base_link)
-
-    media_content = item.find("media:content", NS)
-    if media_content is not None:
-        url = media_content.attrib.get("url", "")
-        if url:
-            return absolutize(clean_text(url), base_link)
-
-    media_thumbnail = item.find("media:thumbnail", NS)
-    if media_thumbnail is not None:
-        url = media_thumbnail.attrib.get("url", "")
-        if url:
-            return absolutize(clean_text(url), base_link)
-
-    return ""
+def get_article_link(article: dict[str, Any]) -> str:
+    links = article.get("links") or {}
+    web = links.get("web") or {}
+    return clean_text(web.get("href") or "")
 
 
-def parse_feed(xml_text: str) -> list[dict[str, Any]]:
-    try:
-        root = ET.fromstring(xml_text)
-    except ET.ParseError as exc:
-        preview = xml_text[:300].replace("\n", " ")
-        raise RuntimeError(f"Failed to parse feed XML: {exc}; body-start={preview!r}") from exc
+def get_article_image(article: dict[str, Any]) -> str:
+    images = article.get("images") or []
 
-    channel = root.find("channel")
-    if channel is None:
-        raise RuntimeError("RSS feed parsed, but no <channel> element was found")
+    if not images:
+        return ""
 
-    items: list[dict[str, Any]] = []
+    # Prefer the widest image if dimensions are available.
+    best = None
+    best_width = -1
 
-    for item in channel.findall("item")[:MAX_ITEMS]:
-        title = clean_text(item.findtext("title"))
-        link = clean_text(item.findtext("link"))
-        pub_date = clean_text(item.findtext("pubDate"))
-        description_html = item.findtext("description") or ""
-        description_text = strip_html(description_html)
-        image = get_rss_image(item, link)
+    for image in images:
+        if not isinstance(image, dict):
+            continue
 
-        items.append(
+        url = clean_text(image.get("url") or "")
+        if not url:
+            continue
+
+        width = image.get("width") or 0
+        try:
+            width = int(width)
+        except Exception:
+            width = 0
+
+        if width > best_width:
+            best = url
+            best_width = width
+
+    return best or ""
+
+
+def parse_feed(data: dict[str, Any]) -> list[dict[str, Any]]:
+    articles = data.get("articles") or []
+
+    if not articles:
+        raise RuntimeError("No articles found in ESPN API response")
+
+    stories: list[dict[str, Any]] = []
+
+    for article in articles[:MAX_ITEMS]:
+        if not isinstance(article, dict):
+            continue
+
+        title = clean_text(
+            article.get("headline")
+            or article.get("title")
+            or article.get("shortLinkText")
+            or ""
+        )
+
+        link = get_article_link(article)
+
+        summary = clean_text(
+            article.get("description")
+            or article.get("summary")
+            or strip_html(article.get("story") or "")
+            or ""
+        )
+
+        image = get_article_image(article)
+
+        pub_date = clean_text(
+            article.get("published")
+            or article.get("lastModified")
+            or article.get("now")
+            or ""
+        )
+
+        if not title or not link:
+            continue
+
+        stories.append(
             {
                 "title": title,
                 "link": link,
                 "pubDate": pub_date,
-                "summary": description_text,
+                "summary": summary,
                 "source": "ESPN",
                 "image": image,
             }
         )
 
-    if not items:
-        raise RuntimeError("RSS feed parsed, but no <item> stories were found")
+    if not stories:
+        raise RuntimeError("ESPN API returned articles, but none had title/link")
 
-    return items
+    return stories
 
 
 def extract_meta(
@@ -194,7 +231,7 @@ def enrich_story(story: dict[str, Any]) -> dict[str, Any]:
             or extract_meta(soup, name="description")
         )
 
-        # Keep the RSS image if it exists. Only use the article page image as fallback.
+        # Keep the API image if it exists. Only use article-page image as fallback.
         if not story.get("image") and page_image:
             story["image"] = absolutize(page_image, link)
 
@@ -210,15 +247,21 @@ def enrich_story(story: dict[str, Any]) -> dict[str, Any]:
 def to_iso(pub_date: str) -> str:
     if not pub_date:
         return ""
+
     try:
         return parsedate_to_datetime(pub_date).isoformat()
+    except Exception:
+        pass
+
+    try:
+        return pub_date.replace("Z", "+00:00")
     except Exception:
         return pub_date
 
 
 def build() -> dict[str, Any]:
-    xml_text = fetch_feed_xml()
-    stories = parse_feed(xml_text)
+    data = fetch_feed_json()
+    stories = parse_feed(data)
 
     enriched: list[dict[str, Any]] = []
 
