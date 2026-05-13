@@ -14,7 +14,7 @@ from urllib.parse import urlparse
 import requests
 from bs4 import BeautifulSoup
 
-FEED_URL = "https://site.api.espn.com/apis/site/v2/sports"
+FEED_URL = "https://api.allorigins.win/raw?url=https://www.espn.com/espn/rss/news"
 MAX_ITEMS = 5
 OUTPUT_PATH = "data/stories.json"
 TIMEOUT = 20
