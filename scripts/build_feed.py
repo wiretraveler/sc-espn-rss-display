@@ -29,6 +29,10 @@ HEADERS = {
     )
 }
 
+NS = {
+    "media": "http://search.yahoo.com/mrss/",
+}
+
 
 def clean_text(value: str | None) -> str:
     if not value:
@@ -44,6 +48,19 @@ def strip_html(value: str | None) -> str:
     soup = BeautifulSoup(value, "lxml")
     text = soup.get_text(" ", strip=True)
     return clean_text(text)
+
+
+def absolutize(url: str, base: str) -> str:
+    if not url:
+        return ""
+    if url.startswith("http://") or url.startswith("https://"):
+        return url
+    if url.startswith("//"):
+        return "https:" + url
+    if url.startswith("/"):
+        parts = urlparse(base)
+        return f"{parts.scheme}://{parts.netloc}{url}"
+    return url
 
 
 def fetch_feed_xml() -> str:
@@ -67,6 +84,7 @@ def fetch_feed_xml() -> str:
                 )
 
             return text
+
         except Exception as exc:
             last_exc = exc
             print(
@@ -79,26 +97,48 @@ def fetch_feed_xml() -> str:
     raise RuntimeError(f"Failed to fetch ESPN feed after {FEED_RETRIES} attempts: {last_exc}")
 
 
+def get_rss_image(item: ET.Element, base_link: str) -> str:
+    enclosure = item.find("enclosure")
+    if enclosure is not None:
+        url = enclosure.attrib.get("url", "")
+        if url:
+            return absolutize(clean_text(url), base_link)
+
+    media_content = item.find("media:content", NS)
+    if media_content is not None:
+        url = media_content.attrib.get("url", "")
+        if url:
+            return absolutize(clean_text(url), base_link)
+
+    media_thumbnail = item.find("media:thumbnail", NS)
+    if media_thumbnail is not None:
+        url = media_thumbnail.attrib.get("url", "")
+        if url:
+            return absolutize(clean_text(url), base_link)
+
+    return ""
+
+
 def parse_feed(xml_text: str) -> list[dict[str, Any]]:
     try:
         root = ET.fromstring(xml_text)
     except ET.ParseError as exc:
         preview = xml_text[:300].replace("\n", " ")
-        raise RuntimeError(
-            f"Failed to parse feed XML: {exc}; body-start={preview!r}"
-        ) from exc
+        raise RuntimeError(f"Failed to parse feed XML: {exc}; body-start={preview!r}") from exc
 
     channel = root.find("channel")
     if channel is None:
         raise RuntimeError("RSS feed parsed, but no <channel> element was found")
 
     items: list[dict[str, Any]] = []
+
     for item in channel.findall("item")[:MAX_ITEMS]:
         title = clean_text(item.findtext("title"))
         link = clean_text(item.findtext("link"))
         pub_date = clean_text(item.findtext("pubDate"))
         description_html = item.findtext("description") or ""
         description_text = strip_html(description_html)
+        image = get_rss_image(item, link)
 
         items.append(
             {
@@ -106,8 +146,13 @@ def parse_feed(xml_text: str) -> list[dict[str, Any]]:
                 "link": link,
                 "pubDate": pub_date,
                 "summary": description_text,
+                "source": "ESPN",
+                "image": image,
             }
         )
+
+    if not items:
+        raise RuntimeError("RSS feed parsed, but no <item> stories were found")
 
     return items
 
@@ -128,23 +173,8 @@ def extract_meta(
     return ""
 
 
-def absolutize(url: str, base: str) -> str:
-    if not url:
-        return ""
-    if url.startswith("http://") or url.startswith("https://"):
-        return url
-    if url.startswith("//"):
-        return "https:" + url
-    if url.startswith("/"):
-        parts = urlparse(base)
-        return f"{parts.scheme}://{parts.netloc}{url}"
-    return url
-
-
 def enrich_story(story: dict[str, Any]) -> dict[str, Any]:
     link = story.get("link", "")
-    story["source"] = "ESPN"
-    story["image"] = story.get("image", "")
 
     if not link:
         return story
@@ -154,18 +184,23 @@ def enrich_story(story: dict[str, Any]) -> dict[str, Any]:
         response.raise_for_status()
         soup = BeautifulSoup(response.text, "lxml")
 
-        image = (
+        page_image = (
             extract_meta(soup, prop="og:image")
             or extract_meta(soup, name="twitter:image")
         )
-        summary = (
+
+        page_summary = (
             extract_meta(soup, prop="og:description")
             or extract_meta(soup, name="description")
-            or story.get("summary", "")
         )
 
-        story["image"] = absolutize(image, link)
-        story["summary"] = clean_text(summary) or story.get("summary", "")
+        # Keep the RSS image if it exists. Only use the article page image as fallback.
+        if not story.get("image") and page_image:
+            story["image"] = absolutize(page_image, link)
+
+        if page_summary:
+            story["summary"] = clean_text(page_summary)
+
     except Exception as exc:
         print(f"WARNING: enrich failed for {link}: {exc}", file=sys.stderr)
 
@@ -181,23 +216,12 @@ def to_iso(pub_date: str) -> str:
         return pub_date
 
 
-def load_existing_payload() -> dict[str, Any] | None:
-    if not os.path.exists(OUTPUT_PATH):
-        return None
-
-    try:
-        with open(OUTPUT_PATH, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception as exc:
-        print(f"WARNING: could not read existing {OUTPUT_PATH}: {exc}", file=sys.stderr)
-        return None
-
-
 def build() -> dict[str, Any]:
     xml_text = fetch_feed_xml()
     stories = parse_feed(xml_text)
 
     enriched: list[dict[str, Any]] = []
+
     for story in stories:
         enriched_story = enrich_story(story)
         enriched_story["pubDateIso"] = to_iso(enriched_story.get("pubDate", ""))
@@ -213,23 +237,18 @@ def build() -> dict[str, Any]:
 def main() -> int:
     try:
         payload = build()
+
         os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
+
         with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
             json.dump(payload, f, indent=2, ensure_ascii=False)
+
         print(f"Wrote {OUTPUT_PATH}")
         return 0
+
     except Exception as exc:
         traceback.print_exc()
         print(f"ERROR: {exc}", file=sys.stderr)
-
-        existing = load_existing_payload()
-        if existing is not None:
-            print(
-                f"WARNING: keeping existing {OUTPUT_PATH} so workflow does not fail",
-                file=sys.stderr,
-            )
-            return 0
-
         return 1
 
 
