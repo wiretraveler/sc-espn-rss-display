@@ -247,21 +247,25 @@
       box-shadow: 0 0 0 4px rgba(56,211,159,0.14);
     }
 
-    .dots {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+.dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  min-width: 78px;
+}
 
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.16);
-      transition: transform 250ms ease, background 250ms ease;
-    }
+.dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.16);
+  transition: transform 250ms ease, background 250ms ease;
+}
 
     .dot.active {
       background: var(--accent);
