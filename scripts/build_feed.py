@@ -7,9 +7,10 @@ import re
 import sys
 import time
 import traceback
-from datetime import datetime, timezone
+import xml.etree.ElementTree as ET
+from email.utils import parsedate_to_datetime
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -22,7 +23,11 @@ FEED_RETRIES = 3
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept": "application/rss+xml, application/xml, text/xml, */*",
+}
+
+NS = {
+    "media": "http://search.yahoo.com/mrss/",
 }
 
 
@@ -30,131 +35,142 @@ def clean_text(value: Any) -> str:
     if not value:
         return ""
     text = html.unescape(str(value))
-    return re.sub(r"\s+", " ", text).strip()
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
 
 
-def fetch_homepage_html() -> str:
+def strip_html(value: str | None) -> str:
+    if not value:
+        return ""
+    soup = BeautifulSoup(value, "lxml")
+    return clean_text(soup.get_text(" ", strip=True))
+
+
+def absolutize(url: str, base: str) -> str:
+    if not url:
+        return ""
+    if url.startswith("http://") or url.startswith("https://"):
+        return url
+    if url.startswith("//"):
+        return "https:" + url
+    if url.startswith("/"):
+        parts = urlparse(base)
+        return f"{parts.scheme}://{parts.netloc}{url}"
+    return url
+
+
+def fetch_feed_xml() -> str:
     last_exc: Exception | None = None
 
     for attempt in range(1, FEED_RETRIES + 1):
         try:
             response = requests.get(FEED_URL, headers=HEADERS, timeout=TIMEOUT)
             response.raise_for_status()
-            text = response.text.strip()
 
-            if "<html" not in text[:1000].lower():
-                raise RuntimeError(f"ESPN did not return HTML: {text[:200]!r}")
+            text = response.text.strip()
+            head = text[:500].lower()
+
+            if not text.startswith("<?xml") and "<rss" not in head:
+                raise RuntimeError(f"Worker did not return RSS XML: {text[:300]!r}")
 
             return text
 
         except Exception as exc:
             last_exc = exc
             print(
-                f"WARNING: homepage fetch attempt {attempt}/{FEED_RETRIES} failed: {exc}",
+                f"WARNING: feed fetch attempt {attempt}/{FEED_RETRIES} failed: {exc}",
                 file=sys.stderr,
             )
             if attempt < FEED_RETRIES:
                 time.sleep(2 * attempt)
 
-    raise RuntimeError(f"Failed to fetch ESPN homepage after {FEED_RETRIES} attempts: {last_exc}")
+    raise RuntimeError(f"Failed to fetch ESPN feed after {FEED_RETRIES} attempts: {last_exc}")
 
 
-def get_image(card: Any) -> str:
-    img = card.find("img")
-    if not img:
-        return ""
+def get_rss_image(item: ET.Element, base_link: str) -> str:
+    enclosure = item.find("enclosure")
+    if enclosure is not None:
+        url = clean_text(enclosure.attrib.get("url"))
+        if url:
+            return absolutize(url, base_link)
 
-    for attr in ["src", "data-src", "data-default-src"]:
-        value = clean_text(img.get(attr))
-        if value:
-            return urljoin(FEED_URL, value)
+    media_content = item.find("media:content", NS)
+    if media_content is not None:
+        url = clean_text(media_content.attrib.get("url"))
+        if url:
+            return absolutize(url, base_link)
 
-    srcset = clean_text(img.get("srcset"))
-    if srcset:
-        first = srcset.split(",")[0].strip().split(" ")[0]
-        return urljoin(FEED_URL, first)
+    media_thumbnail = item.find("media:thumbnail", NS)
+    if media_thumbnail is not None:
+        url = clean_text(media_thumbnail.attrib.get("url"))
+        if url:
+            return absolutize(url, base_link)
+
+    description_html = item.findtext("description") or ""
+    soup = BeautifulSoup(description_html, "lxml")
+    img = soup.find("img")
+    if img:
+        url = clean_text(img.get("src") or img.get("data-src"))
+        if url:
+            return absolutize(url, base_link)
 
     return ""
 
 
-def get_summary(card: Any, title: str) -> str:
-    for selector in [
-        ".contentItem__subhead",
-        ".contentItem__description",
-        ".headlineStack__description",
-        "p",
-    ]:
-        node = card.select_one(selector)
-        if node:
-            text = clean_text(node.get_text(" ", strip=True))
-            if text and text != title:
-                return text
-    return ""
+def parse_feed(xml_text: str) -> list[dict[str, Any]]:
+    try:
+        root = ET.fromstring(xml_text)
+    except ET.ParseError as exc:
+        preview = xml_text[:300].replace("\n", " ")
+        raise RuntimeError(f"Failed to parse feed XML: {exc}; body-start={preview!r}") from exc
 
+    channel = root.find("channel")
+    if channel is None:
+        raise RuntimeError("RSS feed parsed, but no <channel> element was found")
 
-def parse_top_stories(html_text: str) -> list[dict[str, Any]]:
-    soup = BeautifulSoup(html_text, "lxml")
     stories: list[dict[str, Any]] = []
-    seen: set[str] = set()
 
-    cards = soup.select(".contentItem, .headlineStack, article, li")
+    for item in channel.findall("item")[:MAX_ITEMS]:
+        title = clean_text(item.findtext("title"))
+        link = clean_text(item.findtext("link"))
+        pub_date = clean_text(item.findtext("pubDate"))
+        description_html = item.findtext("description") or ""
+        summary = strip_html(description_html)
+        image = get_rss_image(item, link)
 
-    for card in cards:
-        link_node = None
-
-        for a in card.find_all("a", href=True):
-            href = clean_text(a.get("href"))
-            title = clean_text(a.get_text(" ", strip=True))
-
-            if not href or not title:
-                continue
-
-            if "/story/" in href or "/game/" in href:
-                link_node = a
-                break
-
-        if not link_node:
+        if not title or not link:
             continue
-
-        title = clean_text(link_node.get_text(" ", strip=True))
-        link = urljoin(FEED_URL, clean_text(link_node.get("href")))
-
-        if not title or not link or link in seen:
-            continue
-
-        image = get_image(card)
-
-        if not image:
-            continue
-
-        seen.add(link)
-
-        now_iso = datetime.now(timezone.utc).isoformat()
 
         stories.append(
             {
                 "title": title,
                 "link": link,
-                "pubDate": now_iso,
-                "summary": get_summary(card, title),
+                "pubDate": pub_date,
+                "summary": summary,
                 "source": "ESPN",
                 "image": image,
-                "pubDateIso": now_iso,
+                "pubDateIso": to_iso(pub_date),
             }
         )
 
-        if len(stories) >= MAX_ITEMS:
-            break
-
     if not stories:
-        raise RuntimeError("Could not find ESPN homepage story cards with images")
+        raise RuntimeError("RSS feed parsed, but no usable stories were found")
 
     return stories
 
 
+def to_iso(pub_date: str) -> str:
+    if not pub_date:
+        return ""
+    try:
+        return parsedate_to_datetime(pub_date).isoformat()
+    except Exception:
+        return pub_date
+
+
 def build() -> dict[str, Any]:
-    html_text = fetch_homepage_html()
-    stories = parse_top_stories(html_text)
+    xml_text = fetch_feed_xml()
+    stories = parse_feed(xml_text)
 
     return {
         "generatedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -165,6 +181,7 @@ def build() -> dict[str, Any]:
 def main() -> int:
     try:
         payload = build()
+
         os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
 
         with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
