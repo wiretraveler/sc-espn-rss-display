@@ -7,31 +7,23 @@ import re
 import sys
 import time
 import traceback
-import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 from typing import Any
-from urllib.parse import urlparse
+from urllib.parse import quote
 
 import requests
 from bs4 import BeautifulSoup
 
-FEED_URL = "https://www.espn.com/espn/rss/news"
+RSS_URL = "https://www.espn.com/espn/rss/news"
+FEED_URL = "https://api.rss2json.com/v1/api.json?rss_url=" + quote(RSS_URL, safe="")
 MAX_ITEMS = 5
 OUTPUT_PATH = "data/stories.json"
-TIMEOUT = 20
+TIMEOUT = 30
 FEED_RETRIES = 3
 
 HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (X11; Linux x86_64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/123.0 Safari/537.36"
-    ),
-    "Accept": "application/rss+xml, application/xml, text/xml, */*",
-}
-
-NS = {
-    "media": "http://search.yahoo.com/mrss/",
+    "User-Agent": "Mozilla/5.0",
+    "Accept": "application/json,*/*",
 }
 
 
@@ -43,47 +35,29 @@ def clean_text(value: Any) -> str:
     return text
 
 
-def strip_html(value: str | None) -> str:
+def strip_html(value: Any) -> str:
     if not value:
         return ""
-    soup = BeautifulSoup(value, "lxml")
+    soup = BeautifulSoup(str(value), "lxml")
     return clean_text(soup.get_text(" ", strip=True))
 
 
-def absolutize(url: str, base: str) -> str:
-    if not url:
-        return ""
-    if url.startswith("http://") or url.startswith("https://"):
-        return url
-    if url.startswith("//"):
-        return "https:" + url
-    if url.startswith("/"):
-        parts = urlparse(base)
-        return f"{parts.scheme}://{parts.netloc}{url}"
-    return url
-
-
-def fetch_feed_xml() -> str:
+def fetch_feed_json() -> dict[str, Any]:
     last_exc: Exception | None = None
 
     for attempt in range(1, FEED_RETRIES + 1):
         try:
             response = requests.get(FEED_URL, headers=HEADERS, timeout=TIMEOUT)
             response.raise_for_status()
+            data = response.json()
 
-            text = response.text.strip()
-            content_type = response.headers.get("content-type", "").lower()
-            head = text[:500].lower()
+            if data.get("status") != "ok":
+                raise RuntimeError(f"rss2json returned non-ok response: {data}")
 
-            if "xml" not in content_type and not text.startswith("<?xml") and "<rss" not in head:
-                raise RuntimeError(
-                    "Feed did not return RSS XML. "
-                    f"status={response.status_code}, "
-                    f"content-type={content_type}, "
-                    f"body-start={text[:300]!r}"
-                )
+            if not data.get("items"):
+                raise RuntimeError(f"rss2json returned no items: {data}")
 
-            return text
+            return data
 
         except Exception as exc:
             last_exc = exc
@@ -94,119 +68,27 @@ def fetch_feed_xml() -> str:
             if attempt < FEED_RETRIES:
                 time.sleep(2 * attempt)
 
-    raise RuntimeError(f"Failed to fetch ESPN feed after {FEED_RETRIES} attempts: {last_exc}")
+    raise RuntimeError(f"Failed to fetch feed after {FEED_RETRIES} attempts: {last_exc}")
 
 
-def get_rss_image(item: ET.Element, base_link: str) -> str:
-    enclosure = item.find("enclosure")
-    if enclosure is not None:
-        url = clean_text(enclosure.attrib.get("url"))
+def extract_image(item: dict[str, Any]) -> str:
+    enclosure = item.get("enclosure") or {}
+    if isinstance(enclosure, dict):
+        url = clean_text(enclosure.get("link") or enclosure.get("url"))
         if url:
-            return absolutize(url, base_link)
+            return url
 
-    media_content = item.find("media:content", NS)
-    if media_content is not None:
-        url = clean_text(media_content.attrib.get("url"))
-        if url:
-            return absolutize(url, base_link)
+    thumbnail = clean_text(item.get("thumbnail"))
+    if thumbnail:
+        return thumbnail
 
-    media_thumbnail = item.find("media:thumbnail", NS)
-    if media_thumbnail is not None:
-        url = clean_text(media_thumbnail.attrib.get("url"))
-        if url:
-            return absolutize(url, base_link)
+    content = item.get("content") or item.get("description") or ""
+    soup = BeautifulSoup(str(content), "lxml")
+    img = soup.find("img")
+    if img:
+        return clean_text(img.get("src") or img.get("data-src"))
 
     return ""
-
-
-def parse_feed(xml_text: str) -> list[dict[str, Any]]:
-    try:
-        root = ET.fromstring(xml_text)
-    except ET.ParseError as exc:
-        preview = xml_text[:300].replace("\n", " ")
-        raise RuntimeError(f"Failed to parse feed XML: {exc}; body-start={preview!r}") from exc
-
-    channel = root.find("channel")
-    if channel is None:
-        raise RuntimeError("RSS feed parsed, but no <channel> element was found")
-
-    stories: list[dict[str, Any]] = []
-
-    for item in channel.findall("item")[:MAX_ITEMS]:
-        title = clean_text(item.findtext("title"))
-        link = clean_text(item.findtext("link"))
-        pub_date = clean_text(item.findtext("pubDate"))
-        description_html = item.findtext("description") or ""
-        summary = strip_html(description_html)
-        image = get_rss_image(item, link)
-
-        if not title or not link:
-            continue
-
-        stories.append(
-            {
-                "title": title,
-                "link": link,
-                "pubDate": pub_date,
-                "summary": summary,
-                "source": "ESPN",
-                "image": image,
-            }
-        )
-
-    if not stories:
-        raise RuntimeError("RSS feed parsed, but no usable stories were found")
-
-    return stories
-
-
-def extract_meta(
-    soup: BeautifulSoup, *, prop: str | None = None, name: str | None = None
-) -> str:
-    if prop:
-        tag = soup.find("meta", attrs={"property": prop})
-        if tag and tag.get("content"):
-            return clean_text(tag["content"])
-
-    if name:
-        tag = soup.find("meta", attrs={"name": name})
-        if tag and tag.get("content"):
-            return clean_text(tag["content"])
-
-    return ""
-
-
-def enrich_story(story: dict[str, Any]) -> dict[str, Any]:
-    link = story.get("link", "")
-
-    if not link:
-        return story
-
-    try:
-        response = requests.get(link, headers=HEADERS, timeout=TIMEOUT)
-        response.raise_for_status()
-        soup = BeautifulSoup(response.text, "lxml")
-
-        page_image = (
-            extract_meta(soup, prop="og:image")
-            or extract_meta(soup, name="twitter:image")
-        )
-
-        page_summary = (
-            extract_meta(soup, prop="og:description")
-            or extract_meta(soup, name="description")
-        )
-
-        if not story.get("image") and page_image:
-            story["image"] = absolutize(page_image, link)
-
-        if page_summary:
-            story["summary"] = clean_text(page_summary)
-
-    except Exception as exc:
-        print(f"WARNING: enrich failed for {link}: {exc}", file=sys.stderr)
-
-    return story
 
 
 def to_iso(pub_date: str) -> str:
@@ -219,27 +101,44 @@ def to_iso(pub_date: str) -> str:
 
 
 def build() -> dict[str, Any]:
-    xml_text = fetch_feed_xml()
-    stories = parse_feed(xml_text)
+    data = fetch_feed_json()
 
-    enriched: list[dict[str, Any]] = []
+    stories: list[dict[str, Any]] = []
 
-    for story in stories:
-        enriched_story = enrich_story(story)
-        enriched_story["pubDateIso"] = to_iso(enriched_story.get("pubDate", ""))
-        enriched.append(enriched_story)
-        time.sleep(0.6)
+    for item in data.get("items", [])[:MAX_ITEMS]:
+        title = clean_text(item.get("title"))
+        link = clean_text(item.get("link"))
+        pub_date = clean_text(item.get("pubDate"))
+        summary = strip_html(item.get("description") or item.get("content") or "")
+        image = extract_image(item)
+
+        if not title or not link:
+            continue
+
+        stories.append(
+            {
+                "title": title,
+                "link": link,
+                "pubDate": pub_date,
+                "summary": summary,
+                "source": "ESPN",
+                "image": image,
+                "pubDateIso": to_iso(pub_date),
+            }
+        )
+
+    if not stories:
+        raise RuntimeError("No usable stories found")
 
     return {
         "generatedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "stories": enriched,
+        "stories": stories,
     }
 
 
 def main() -> int:
     try:
         payload = build()
-
         os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
 
         with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
