@@ -14,7 +14,7 @@ from urllib.parse import urlparse
 import requests
 from bs4 import BeautifulSoup
 
-FEED_URL = "https://site.api.espn.com/apis/site/v2/sports/news"
+FEED_URL = "https://site.api.espn.com/apis/site/v2/sports"
 MAX_ITEMS = 5
 OUTPUT_PATH = "data/stories.json"
 TIMEOUT = 20
