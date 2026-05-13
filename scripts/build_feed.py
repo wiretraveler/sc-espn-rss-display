@@ -14,7 +14,7 @@ from urllib.parse import quote
 import requests
 from bs4 import BeautifulSoup
 
-RSS_URL = "https://www.espn.com/espn/rss/news"
+RSS_URL = "https://www.espn.com/"
 FEED_URL = "https://api.rss2json.com/v1/api.json?rss_url=" + quote(RSS_URL, safe="")
 MAX_ITEMS = 5
 OUTPUT_PATH = "data/stories.json"
