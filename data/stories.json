@@ -2,49 +2,49 @@
   "generatedAt": "2026-05-13T12:00:00Z",
   "stories": [
     {
-      "title": "ESPN headline 1",
-      "link": "https://www.espn.com/",
-      "pubDate": "Wed, 13 May 2026 11:45:00 EST",
-      "summary": "Latest ESPN sports headline summary.",
+      "title": "NBA playoffs 2026: Schedule, scores, news and highlights",
+      "link": "https://www.espn.com/nba/story/_/id/48419498/nba-playoffs-2026-play-finals-schedule-scores-news-highlights-bracket-dates",
+      "pubDate": "Wed, 13 May 2026 12:00:00 EST",
+      "summary": "ESPN has the latest NBA playoff schedule, scores, news, highlights and bracket updates.",
       "source": "ESPN",
-      "image": "https://a.espncdn.com/photo/example1.jpg",
-      "pubDateIso": "2026-05-13T11:45:00-05:00"
+      "image": "https://a.espncdn.com/combiner/i?img=/photo/2026/0509/r1655652_1296x729_16-9.jpg",
+      "pubDateIso": "2026-05-13T12:00:00-05:00"
     },
     {
-      "title": "ESPN headline 2",
-      "link": "https://www.espn.com/",
+      "title": "For Yankees captain Aaron Judge, urgency to win is same as ever",
+      "link": "https://www.espn.com/mlb/story/_/id/48751272/mlb-2026-aaron-judge-new-york-yankees-urgency-captain-world-series-legacy",
       "pubDate": "Wed, 13 May 2026 11:30:00 EST",
-      "summary": "Another ESPN sports update.",
+      "summary": "Aaron Judge and the Yankees continue their push toward another postseason run.",
       "source": "ESPN",
-      "image": "https://a.espncdn.com/photo/example2.jpg",
+      "image": "https://a.espncdn.com/combiner/i?img=/photo/2019/0403/r523640_2_1296x729_16-9.jpg",
       "pubDateIso": "2026-05-13T11:30:00-05:00"
     },
     {
-      "title": "ESPN headline 3",
-      "link": "https://www.espn.com/",
-      "pubDate": "Wed, 13 May 2026 11:15:00 EST",
-      "summary": "More breaking sports coverage from ESPN.",
-      "source": "ESPN",
-      "image": "https://a.espncdn.com/photo/example3.jpg",
-      "pubDateIso": "2026-05-13T11:15:00-05:00"
-    },
-    {
-      "title": "ESPN headline 4",
-      "link": "https://www.espn.com/",
+      "title": "Can more NFL teams copy the Rams' tight end-heavy offense?",
+      "link": "https://www.espn.com/nfl/story/_/id/48750958/2026-nfl-tight-ends-13-personnel-rams-mcvay-trends-draft-jumbo-barnwell",
       "pubDate": "Wed, 13 May 2026 11:00:00 EST",
-      "summary": "Featured game recap and highlights.",
+      "summary": "The Rams found success with tight end-heavy sets, and other NFL teams may follow.",
       "source": "ESPN",
-      "image": "https://a.espncdn.com/photo/example4.jpg",
+      "image": "https://a.espncdn.com/combiner/i?img=/photo/2019/0313/r513768_1296x729_16-9.jpg",
       "pubDateIso": "2026-05-13T11:00:00-05:00"
     },
     {
-      "title": "ESPN headline 5",
-      "link": "https://www.espn.com/",
-      "pubDate": "Wed, 13 May 2026 10:45:00 EST",
-      "summary": "Additional sports news and updates.",
+      "title": "Dodgers' Shohei Ohtani gets back on track with homer",
+      "link": "https://www.espn.com/mlb/story/_/id/48756669/dodgers-shohei-ohtani-gets-back-track-home-run-loss-giants",
+      "pubDate": "Wed, 13 May 2026 10:30:00 EST",
+      "summary": "Shohei Ohtani homered as the Dodgers continued their series against the Giants.",
       "source": "ESPN",
-      "image": "https://a.espncdn.com/photo/example5.jpg",
-      "pubDateIso": "2026-05-13T10:45:00-05:00"
+      "image": "https://a.espncdn.com/combiner/i?img=/photo/2026/0509/r1655646_1296x729_16-9.jpg",
+      "pubDateIso": "2026-05-13T10:30:00-05:00"
+    },
+    {
+      "title": "Pirates ace Paul Skenes takes another no-hit bid deep",
+      "link": "https://www.espn.com/mlb/story/_/id/48754829/pirates-ace-paul-skenes-loses-no-hit-bid-seventh-inning",
+      "pubDate": "Wed, 13 May 2026 10:00:00 EST",
+      "summary": "Paul Skenes carried another no-hit bid deep into a start before it ended in the seventh inning.",
+      "source": "ESPN",
+      "image": "https://a1.espncdn.com/combiner/i?img=%2Fphoto%2F2019%2F0403%2Fr523640_2_1296x729_16%2D9.jpg",
+      "pubDateIso": "2026-05-13T10:00:00-05:00"
     }
   ]
 }
