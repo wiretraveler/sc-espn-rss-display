@@ -1,50 +1,50 @@
 {
-  "generatedAt": "2026-05-09T20:02:11Z",
+  "generatedAt": "2026-05-13T12:00:00Z",
   "stories": [
     {
-      "title": "Follow live: Cavs seek first win vs. series-leadin...",
-      "link": "https://www.espn.com/nba/game/_/gameId/401871335/pistons-cavaliers",
-      "pubDate": "Sat, 9 May 2026 15:48:23 EST",
-      "summary": "Live coverage of the Detroit Pistons vs. Cleveland Cavaliers NBA game on ESPN, including live score, highlights and updated stats.",
+      "title": "ESPN headline 1",
+      "link": "https://www.espn.com/",
+      "pubDate": "Wed, 13 May 2026 11:45:00 EST",
+      "summary": "Latest ESPN sports headline summary.",
       "source": "ESPN",
-      "image": "http://s.espncdn.com/stitcher/sports/basketball/nba/events/401871335.png?templateId=espn.com.share.1",
-      "pubDateIso": "2026-05-09T15:48:23-05:00"
+      "image": "https://a.espncdn.com/photo/example1.jpg",
+      "pubDateIso": "2026-05-13T11:45:00-05:00"
     },
     {
-      "title": "Cox, longtime Braves manager, WS champ, dies",
-      "link": "https://www.espn.com/mlb/story/_/id/48722612/bobby-cox-long-braves-manager-world-series-champ-dies",
-      "pubDate": "Sat, 9 May 2026 15:03:57 EST",
-      "summary": "Bobby Cox, longtime manager of the Atlanta Braves and a World Series champion in 1995, has died at the age of 84.",
+      "title": "ESPN headline 2",
+      "link": "https://www.espn.com/",
+      "pubDate": "Wed, 13 May 2026 11:30:00 EST",
+      "summary": "Another ESPN sports update.",
       "source": "ESPN",
-      "image": "https://a1.espncdn.com/combiner/i?img=%2Fphoto%2F2019%2F0403%2Fr523640_2_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-05-09T15:03:57-05:00"
+      "image": "https://a.espncdn.com/photo/example2.jpg",
+      "pubDateIso": "2026-05-13T11:30:00-05:00"
     },
     {
-      "title": "Harbaugh: Decision on OBJ could wait until camp",
-      "link": "https://www.espn.com/nfl/story/_/id/48722844/harbaugh-call-odell-beckham-jr-wait-training-camp",
-      "pubDate": "Sat, 9 May 2026 15:03:57 EST",
-      "summary": "Giants coach John Harbaugh said he spoke to Odell Beckham Jr. three to four times in the past week as they remain in touch about reuniting. But they will \"play it out over the next month and into training camp\" before making a decision.",
+      "title": "ESPN headline 3",
+      "link": "https://www.espn.com/",
+      "pubDate": "Wed, 13 May 2026 11:15:00 EST",
+      "summary": "More breaking sports coverage from ESPN.",
       "source": "ESPN",
-      "image": "https://a1.espncdn.com/combiner/i?img=%2Fphoto%2F2019%2F0313%2Fr513768_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-05-09T15:03:57-05:00"
+      "image": "https://a.espncdn.com/photo/example3.jpg",
+      "pubDateIso": "2026-05-13T11:15:00-05:00"
     },
     {
-      "title": "Spurs take 2-1 series lead behind Wemby's gem",
-      "link": "https://www.espn.com/nba/story/_/id/48718221/victor-wembanyama-big-night-gives-spurs-series-lead-vs-wolves",
-      "pubDate": "Sat, 9 May 2026 15:03:57 EST",
-      "summary": "Victor Wembanyama had 39 points, 15 rebounds and more game-wrecking defense for the Spurs, who took a 2-1 series lead with a 115-108 victory over the Timberwolves.",
+      "title": "ESPN headline 4",
+      "link": "https://www.espn.com/",
+      "pubDate": "Wed, 13 May 2026 11:00:00 EST",
+      "summary": "Featured game recap and highlights.",
       "source": "ESPN",
-      "image": "https://a4.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0509%2Fr1655652_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-05-09T15:03:57-05:00"
+      "image": "https://a.espncdn.com/photo/example4.jpg",
+      "pubDateIso": "2026-05-13T11:00:00-05:00"
     },
     {
-      "title": "Finch calls out Brothers' 'unprofessional behavior...",
-      "link": "https://www.espn.com/nba/story/_/id/48718625/timberwolves-chris-finch-calls-tony-brothers-game-3-confrontation-completely-unprofessional-behavior",
-      "pubDate": "Sat, 9 May 2026 15:03:57 EST",
-      "summary": "Timberwolves coach Chris Finch called it \"completely unprofessional behavior\" for official Tony Brothers to confront him on two separate occasions during a fourth-quarter stoppage in Game 3.",
+      "title": "ESPN headline 5",
+      "link": "https://www.espn.com/",
+      "pubDate": "Wed, 13 May 2026 10:45:00 EST",
+      "summary": "Additional sports news and updates.",
       "source": "ESPN",
-      "image": "https://a2.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0509%2Fr1655646_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-05-09T15:03:57-05:00"
+      "image": "https://a.espncdn.com/photo/example5.jpg",
+      "pubDateIso": "2026-05-13T10:45:00-05:00"
     }
   ]
 }
