@@ -1,50 +1,50 @@
 {
-  "generatedAt": "2026-06-22T02:02:11Z",
+  "generatedAt": "2026-06-22T07:41:28Z",
   "stories": [
+    {
+      "title": "How Wyndham Clark battled the crowd and the course...",
+      "link": "https://www.espn.com/golf/story/_/id/49138277/wyndham-clark-hung-won-2026-us-open-shinnecock-hills",
+      "pubDate": "Sun, 21 Jun 2026 23:59:39 EST",
+      "summary": "It wasn't easy for Clark on Sunday. The crowd was against him, and his game was shaky at times. But Clark made enough shots down the stretch to win at Shinnecock Hills.",
+      "source": "ESPN",
+      "image": "https://a3.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0621%2Fr1677355_1296x729_16%2D9.jpg",
+      "pubDateIso": "2026-06-21T23:59:39-05:00"
+    },
     {
       "title": "Clark rides roller coaster to 2nd U.S. Open crown",
       "link": "https://www.espn.com/golf/story/_/id/49138694/wyndham-clark-holds-shinnecock-win-2nd-us-open-title",
-      "pubDate": "Sun, 21 Jun 2026 20:36:36 EST",
+      "pubDate": "Mon, 22 Jun 2026 00:23:26 EST",
       "summary": "Wyndham Clark captured his second U.S. Open title after nearly squandering a six-stroke lead, becoming the first wire-to-wire winner since 2014.",
       "source": "ESPN",
       "image": "https://a4.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0621%2Fr1677360_2_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-06-21T20:36:36-05:00"
+      "pubDateIso": "2026-06-22T00:23:26-05:00"
     },
     {
       "title": "Sources: B. Tkachuk to Panthers, joins brother",
       "link": "https://www.espn.com/nhl/story/_/id/49138139/panthers-acquire-brady-tkachuk-senators-sources-say",
-      "pubDate": "Sun, 21 Jun 2026 20:36:36 EST",
+      "pubDate": "Mon, 22 Jun 2026 00:23:26 EST",
       "summary": "Ottawa Senators captain Brady Tkachuk was dealt to the Florida Panthers for a host of draft picks Sunday, pairing the rugged left wing with his brother, Matthew, on a two-time Stanley Cup championship team that missed the playoffs this past season.",
       "source": "ESPN",
       "image": "https://a1.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0621%2Fr1677303_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-06-21T20:36:36-05:00"
+      "pubDateIso": "2026-06-22T00:23:26-05:00"
+    },
+    {
+      "title": "Salah leads rally as Egypt get first-ever WC win",
+      "link": "https://www.espn.com/soccer/report/_/gameId/760452",
+      "pubDate": "Mon, 22 Jun 2026 00:23:26 EST",
+      "summary": "Mohamed Salah scored the go-ahead goal, and Egypt went on to defeat New Zealand 3-1 on Sunday night and secure a first-ever World Cup win.",
+      "source": "ESPN",
+      "image": "https://a.espncdn.com/combiner/i?img=/i/espn/misc_logos/500/soccer.png",
+      "pubDateIso": "2026-06-22T00:23:26-05:00"
     },
     {
       "title": "Cape Verde cause latest WC shock, deny Uruguay",
       "link": "https://www.espn.com/soccer/story/_/id/49139293/cape-verde-uruguay-2026-world-cup-upset",
-      "pubDate": "Sun, 21 Jun 2026 20:36:36 EST",
+      "pubDate": "Mon, 22 Jun 2026 00:23:26 EST",
       "summary": "Cape Verde's magical start to its first World Cup isn't over. It might just be getting started.",
       "source": "ESPN",
       "image": "https://a3.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0622%2Fr1677377_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-06-21T20:36:36-05:00"
-    },
-    {
-      "title": "Iran played 'beautiful game' in worst conditions",
-      "link": "https://www.espn.com/soccer/story/_/id/49138797/iran-beautiful-game-belgium-worst-conditions-world-cup-2026",
-      "pubDate": "Sun, 21 Jun 2026 20:36:36 EST",
-      "summary": "Iran coach Amir Ghalenoei said his team played a \"beautiful game\" under the worst possible conditions in their 0-0 draw with Belgium at SoFi Stadium on Sunday.",
-      "source": "ESPN",
-      "image": "https://a.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0621%2Fr1677349_1024x576_16%2D9.jpg",
-      "pubDateIso": "2026-06-21T20:36:36-05:00"
-    },
-    {
-      "title": "Russell, 17, surprises dad with caddie swap on 18",
-      "link": "https://www.espn.com/golf/story/_/id/49137009/miles-russell-surprises-dad-us-open-caddie-swap-18th-hole",
-      "pubDate": "Sun, 21 Jun 2026 20:36:36 EST",
-      "summary": "Miles Russell, 17, surprised his father on the 18th hole of the U.S. Open by having his caddie hand over his clubs and bib so he could carry his son's clubs the rest of the way.",
-      "source": "ESPN",
-      "image": "https://a4.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0621%2Fr1677207_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-06-21T20:36:36-05:00"
+      "pubDateIso": "2026-06-22T00:23:26-05:00"
     }
   ]
 }
