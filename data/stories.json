@@ -1,14 +1,23 @@
 {
-  "generatedAt": "2026-07-03T05:27:34Z",
+  "generatedAt": "2026-07-03T08:36:09Z",
   "stories": [
     {
-      "title": "Switzerland shut out Algeria to reach round of 16",
-      "link": "https://www.espn.com/soccer/match/_/gameId/760498/algeria-switzerland",
-      "pubDate": "Fri, 3 Jul 2026 00:58:01 EST",
+      "title": "Portugal snatch victory without Ronaldo, but more ...",
+      "link": "https://www.espn.com/soccer/story/_/id/49255237/portugal-snatch-victory-cristiano-ronaldo-continue",
+      "pubDate": "Fri, 3 Jul 2026 01:28:46 EST",
+      "summary": "Portugal's dramatic win over Croatia has allowed them to advance to the last 16 of the World Cup, but they face an even bigger test in a matchup with Spain.",
+      "source": "ESPN",
+      "image": "https://a2.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0703%2Fr1683702_1296x729_16%2D9.jpg",
+      "pubDateIso": "2026-07-03T01:28:46-05:00"
+    },
+    {
+      "title": "Ramos with winner over Croatia to send Portugal to...",
+      "link": "https://www.espn.com/soccer/story/_/id/49244994/world-cup-daily-spain-portugal-action-round-32-continues",
+      "pubDate": "Fri, 3 Jul 2026 01:28:46 EST",
       "summary": "null",
       "source": "ESPN",
-      "image": "https://a.espncdn.com/combiner/i?img=/i/espn/misc_logos/500/soccer.png",
-      "pubDateIso": "2026-07-03T00:58:01-05:00"
+      "image": "https://a1.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0703%2Fr1683643_1296x729_16%2D9.jpg",
+      "pubDateIso": "2026-07-03T01:28:46-05:00"
     },
     {
       "title": "Sources: 76ers, with Brown on board, eye LeBron",
@@ -35,15 +44,6 @@
       "summary": "Billy Donovan agreed to become the lead assistant coach for San Antonio and head coach Mitch Johnson, sources said.",
       "source": "ESPN",
       "image": "https://a2.espncdn.com/combiner/i?img=%2Fphoto%2F2022%2F1129%2Fr1099165_1023x575_16%2D9.jpg",
-      "pubDateIso": "2026-07-02T21:22:53-05:00"
-    },
-    {
-      "title": "U.S. World Cup win sets domestic ratings record",
-      "link": "https://www.espn.com/soccer/story/_/id/49253970/record-244m-watched-usmnt-world-cup-win",
-      "pubDate": "Thu, 2 Jul 2026 21:22:53 EST",
-      "summary": "The U.S.' victory against Bosnia-Herzegovina on Wednesday night was the most-watched soccer telecast in English-language history, with more than 24.4 million viewers, according to Fox Sports.",
-      "source": "ESPN",
-      "image": "https://a2.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0702%2Fr1683217_1296x729_16%2D9.jpg",
       "pubDateIso": "2026-07-02T21:22:53-05:00"
     }
   ]
