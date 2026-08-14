@@ -1,15 +1,6 @@
 {
-  "generatedAt": "2026-08-14T22:50:14Z",
+  "generatedAt": "2026-08-14T23:22:30Z",
   "stories": [
-    {
-      "title": "Kurkjian: What did we learn from the 1994 MLB strike? Five lessons",
-      "link": "https://www.espn.com/mlb/story/_/id/49603685/mlb-lockout-strike-work-stoppage-lessons-learned-kurkjian",
-      "pubDate": "Fri, 14 Aug 2026 17:00:59 EST",
-      "summary": "As another lockout looms, what lessons can we take from Major League Baseball's last prolonged work stoppage?",
-      "source": "ESPN",
-      "image": "https://a2.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0811%2Fr1700455_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-08-14T17:00:59-05:00"
-    },
     {
       "title": "Falcons' Pearce suspended 8 games after arrest",
       "link": "https://www.espn.com/nfl/story/_/id/49611663/falcons-edge-rusher-james-pearce-suspended-8-games-nfl",
@@ -45,6 +36,15 @@
       "source": "ESPN",
       "image": "https://a4.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0430%2Fr1651306_1296x729_16%2D9.jpg",
       "pubDateIso": "2026-08-14T18:12:36-05:00"
+    },
+    {
+      "title": "Taurasi hopes to join Mercury's ownership group",
+      "link": "https://www.espn.com/wnba/story/_/id/49612680/mercury-legend-diana-taurasi-hopes-join-ownership-group",
+      "pubDate": "Fri, 14 Aug 2026 18:12:37 EST",
+      "summary": "Two days before her No. 3 will be retired by the Phoenix Mercury, Diana Taurasi told ESPN that she hopes to join Mercury ownership in the next year or two.",
+      "source": "ESPN",
+      "image": "https://a3.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0814%2Fr1701911_1296x729_16%2D9.jpg",
+      "pubDateIso": "2026-08-14T18:12:37-05:00"
     }
   ]
 }
