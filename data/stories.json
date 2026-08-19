@@ -1,6 +1,15 @@
 {
-  "generatedAt": "2026-08-19T03:52:12Z",
+  "generatedAt": "2026-08-19T04:37:27Z",
   "stories": [
+    {
+      "title": "NFL training camp updates: Camp standouts and key questions for all 32 teams",
+      "link": "https://www.espn.com/nfl/story/_/id/49368181/training-camp-2026-latest-news-intel-updates-buzz-all-32-teams",
+      "pubDate": "Wed, 19 Aug 2026 00:11:55 EST",
+      "summary": "Get all the latest news, intel and insights on NFL training camps from our team of reporters in the field.",
+      "source": "ESPN",
+      "image": "https://a2.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0813%2Fr1701411_1296x729_16%2D9.jpg",
+      "pubDateIso": "2026-08-19T00:11:55-05:00"
+    },
     {
       "title": "Brewers tie largest shutout with 22-0 rout of M's",
       "link": "https://www.espn.com/mlb/story/_/id/49654440/brewers-tie-largest-shutout-1900-22-0-win-ms",
@@ -35,15 +44,6 @@
       "summary": "Fernando Tatis Jr. reached over the right-field wall to rob the Mets' Francisco Lindor of a grand slam and also hit two home runs on Tuesday night to lead the Padres to a 5-2 win.",
       "source": "ESPN",
       "image": "https://a.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0819%2Fr1703713_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-08-18T23:30:07-05:00"
-    },
-    {
-      "title": "Multiple brawls mar Saints-Cowboys joint practice",
-      "link": "https://www.espn.com/nfl/story/_/id/49653675/multiple-brawls-mar-saints-cowboys-joint-practice-session",
-      "pubDate": "Tue, 18 Aug 2026 23:30:07 EST",
-      "summary": "The Cowboys and Saints had so many fights during their joint session Tuesday that the coaches of each team discussed whether they needed to cancel the practice.",
-      "source": "ESPN",
-      "image": "https://a1.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0224%2Fr1619399_1296x729_16%2D9.jpg",
       "pubDateIso": "2026-08-18T23:30:07-05:00"
     }
   ]
