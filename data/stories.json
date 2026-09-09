@@ -1,50 +1,50 @@
 {
-  "generatedAt": "2026-09-09T11:55:26Z",
+  "generatedAt": "2026-09-09T16:07:49Z",
   "stories": [
     {
-      "title": "Alcaraz dethroned: How Shelton pulled off the upset",
-      "link": "https://www.espn.com/tennis/story/_/id/49876520/us-open-2026-americans-ben-shelton-carlos-alcaraz-upset-quarterfinals",
-      "pubDate": "Wed, 9 Sep 2026 07:07:19 EST",
-      "summary": "What went wrong for Carlos Alcaraz, what went right for Ben Shelton -- and who will win the US Open title now.",
+      "title": "Barnwell predicts the NFL playoffs: Eight returning teams, six newcomers and a Super Bowl pick",
+      "link": "https://www.espn.com/nfl/story/_/id/49865081/2026-nfl-season-14-playoff-teams-field-super-bowl-pick-barnwell",
+      "pubDate": "Wed, 9 Sep 2026 10:23:11 EST",
+      "summary": "Which teams from last season's playoffs will return -- and which ones will miss out? Who will be the surprises in the bracket? And who will win the Super Bowl?",
       "source": "ESPN",
-      "image": "https://a3.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0909%2Fr1713652_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-09-09T07:07:19-05:00"
+      "image": "https://a4.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0908%2Fnfl_barnwell%2Dplayoff%2Dsb%2Dpredictions_16x9.jpg",
+      "pubDateIso": "2026-09-09T10:23:11-05:00"
     },
     {
-      "title": "Shelton stuns Alcaraz in latest US Open finish, sets up all-American semi",
+      "title": "What are rules changes in 2026? Red flags, discipline and kickoffs",
+      "link": "https://www.espn.com/nfl/story/_/id/49868175/nfl-rules-changes-2026-red-challenge-flags-kickoffs-penalties-hip-drop",
+      "pubDate": "Wed, 9 Sep 2026 10:23:10 EST",
+      "summary": "Here is everything fans need to know about NFL rules and points of emphasis for this season.",
+      "source": "ESPN",
+      "image": "https://a1.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0908%2Fr1713223_1296x729_16%2D9.jpg",
+      "pubDateIso": "2026-09-09T10:23:10-05:00"
+    },
+    {
+      "title": "Shelton ends Alcaraz's reign in latest US Open finish, sets up semi vs. Tiafoe",
       "link": "https://www.espn.com/tennis/story/_/id/49877286/ben-shelton-stuns-carlos-alcaraz-5-set-late-night-epic-make-us-open-semifinals",
-      "pubDate": "Wed, 9 Sep 2026 03:56:07 EST",
+      "pubDate": "Wed, 9 Sep 2026 11:51:37 EST",
       "summary": "Ben Shelton ended Carlos Alcaraz's title reign in the latest-finishing match in US Open history, pulling out a 6-7 (5), 6-1, 6-3, 1-6, 7-6 (10-7) victory in a marathon tussle that ended at 3:33 a.m. ET.",
       "source": "ESPN",
       "image": "https://a2.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0909%2Fr1713651_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-09-09T03:56:07-05:00"
+      "pubDateIso": "2026-09-09T11:51:37-05:00"
+    },
+    {
+      "title": "U.S. senator slams SEC over LSU threat: 'Down to the marrow stupid'",
+      "link": "https://www.espn.com/college-football/story/_/id/49880780/us-senator-slams-sec-stupid-threat-expel-lsu",
+      "pubDate": "Wed, 9 Sep 2026 11:51:37 EST",
+      "summary": "U.S. Senator John Kennedy blasted the SEC's threat to expel LSU, saying he and other members of Congress \"will be on them like a hobo on a ham sandwich.\"",
+      "source": "ESPN",
+      "image": "https://a.espncdn.com/combiner/i?img=%2Fphoto%2F2025%2F0802%2Fr1527047_1296x729_16%2D9.jpg",
+      "pubDateIso": "2026-09-09T11:51:37-05:00"
     },
     {
       "title": "Sources: LSU closes roster at 105 without adding ex-NFL players",
       "link": "https://www.espn.com/college-football/story/_/id/49875000/lsu-completes-roster-adding-nfl-players",
-      "pubDate": "Wed, 9 Sep 2026 03:56:07 EST",
+      "pubDate": "Wed, 9 Sep 2026 11:51:37 EST",
       "summary": "LSU has added two current student-athletes to its roster, closing it at 105 and eliminating the ability to add Dae'Quan Wright and Zxavian Harris, sources told ESPN's Pete Thamel.",
       "source": "ESPN",
       "image": "https://a.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0909%2Fr1713564_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-09-09T03:56:07-05:00"
-    },
-    {
-      "title": "NCAA issues new guidance on 'standard timing protocol' in wake of U-M win",
-      "link": "https://www.espn.com/college-football/story/_/id/49874687/ncaa-issues-new-timing-protocol-wake-u-m-last-second-win",
-      "pubDate": "Wed, 9 Sep 2026 03:56:07 EST",
-      "summary": "The NCAA is establishing a new standard timing protocol in the wake of the controversial decision to award Michigan an extra second despite the broadcast clock showing zeros.",
-      "source": "ESPN",
-      "image": "https://a3.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0909%2Fr1713559_1024x576_16%2D9.jpg",
-      "pubDateIso": "2026-09-09T03:56:07-05:00"
-    },
-    {
-      "title": "Michelsen, Tiafoe share moment at net: 'Don't think anyone else could have made me cry'",
-      "link": "https://www.espn.com/tennis/story/_/id/49873904/frances-tiafoe-alex-michelsen-share-emotional-moment-us-open-quarterfinal-battle",
-      "pubDate": "Wed, 9 Sep 2026 03:56:07 EST",
-      "summary": "After handing his fellow American a crushing defeat in the US Open quarterfinals Tuesday, Frances Tiafoe held Alex Michelsen in a long embrace while the 22-year-old sobbed on his shoulder.",
-      "source": "ESPN",
-      "image": "https://a1.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0909%2Fr1713510_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-09-09T03:56:07-05:00"
+      "pubDateIso": "2026-09-09T11:51:37-05:00"
     }
   ]
 }
