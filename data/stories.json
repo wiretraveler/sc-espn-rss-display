@@ -1,50 +1,50 @@
 {
-  "generatedAt": "2026-10-23T20:15:57Z",
+  "generatedAt": "2026-10-23T23:20:33Z",
   "stories": [
     {
-      "title": "What worked -- and what didn't -- in 12 NBA season debuts",
-      "link": "https://www.espn.com/nba/story/_/id/50241906/lebron-lamelo-kawhi-newcomer-season-debuts",
-      "pubDate": "Fri, 23 Oct 2026 14:49:55 EST",
-      "summary": "Which stars shined with their new teams? Which might want a do-over? Ben Golliver examines 12 opening week debuts.",
+      "title": "The only World Series preview you need: Predictions, likely MVPs and how many games Rays-Brewers will go",
+      "link": "https://www.espn.com/mlb/story/_/id/50249352/world-series-brewers-rays-preview-predictions-odds",
+      "pubDate": "Fri, 23 Oct 2026 16:53:39 EST",
+      "summary": "Which team has the edge? What's the inside intel on this Fall Classic? We've got it all covered.",
       "source": "ESPN",
-      "image": "https://a1.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F1022%2Fnba%2Dfirst%2Dnight%2Drecap_16x9.jpg",
-      "pubDateIso": "2026-10-23T14:49:55-05:00"
+      "image": "https://a4.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F1022%2Fmlb_world_series_mega_preview_cr_16x9.jpg",
+      "pubDateIso": "2026-10-23T16:53:39-05:00"
     },
     {
-      "title": "NBA intel: A new trend in contract talks; another pricey decision in OKC",
-      "link": "https://www.espn.com/nba/story/_/id/50241622/contract-talks-thunder-payroll-opening-week",
-      "pubDate": "Fri, 23 Oct 2026 14:49:55 EST",
-      "summary": "Why star contract negotiations have shifted, why OKC is preparing for more roster changes and more.",
+      "title": "Passan: The unbelievable tales and talent of Jacob Misiorowski",
+      "link": "https://www.espn.com/mlb/story/_/id/50255002/jacob-misiorowski-miz-brewers-world-series",
+      "pubDate": "Fri, 23 Oct 2026 16:53:39 EST",
+      "summary": "Misiorowski does amazing things with a baseball. It turns out, that's not the only incredible thing about him.",
       "source": "ESPN",
-      "image": "https://a4.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F1021%2Fr1733812_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-10-23T14:49:55-05:00"
+      "image": "https://a2.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F1023%2Fr1734899_1296x729_16%2D9.jpg",
+      "pubDateIso": "2026-10-23T16:53:39-05:00"
+    },
+    {
+      "title": "Fever fire GM Cox after 2 seasons, as front office shake-up continues",
+      "link": "https://www.espn.com/wnba/story/_/id/50260814/indiana-fever-fire-general-manager-amber-cox",
+      "pubDate": "Fri, 23 Oct 2026 19:15:04 EST",
+      "summary": "The Indiana Fever fired general manager Amber Cox on Friday, hours after the team announced that president Kelly Krauskopf had stepped down from her position.",
+      "source": "ESPN",
+      "image": "https://a4.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F1023%2Fr1735219_1296x729_16%2D9.jpg",
+      "pubDateIso": "2026-10-23T19:15:04-05:00"
     },
     {
       "title": "Oregon State standout WR Legree re-signs with Beavers for '27",
       "link": "https://www.espn.com/college-football/story/_/id/50259547/oregon-state-standout-wr-jesse-legree-re-signs-beavers-27",
-      "pubDate": "Fri, 23 Oct 2026 16:04:26 EST",
-      "summary": "Oregon State freshman receiver Jesse Legree, one of the country's breakout stars in 2026, tells ESPN that he has re-signed with the Beavers for next season.",
+      "pubDate": "Fri, 23 Oct 2026 19:15:04 EST",
+      "summary": "Oregon State freshman receiver Jesse Legree, one of the country's breakout stars in 2026, has re-signed with the Beavers for next season, he announced Friday.",
       "source": "ESPN",
       "image": "https://a3.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F1023%2Fr1735097_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-10-23T16:04:26-05:00"
+      "pubDateIso": "2026-10-23T19:15:04-05:00"
     },
     {
-      "title": "Lamar 'heading in the right direction' with high ankle sprain",
-      "link": "https://www.espn.com/nfl/story/_/id/50260001/ravens-lamar-jackson-high-ankle-sprain-unsure-play",
-      "pubDate": "Fri, 23 Oct 2026 16:04:26 EST",
-      "summary": "Ravens quarterback Lamar Jackson said he's dealing with a high ankle sprain and is unsure if he'll play this week against the Bengals, but is \"heading in the right direction\" after missing the past two games.",
+      "title": "CEO O'Neil given $6.3M before LIV bankruptcy protection filing",
+      "link": "https://www.espn.com/golf/story/_/id/50261278/liv-golf-scott-oneil-given-63m-bankruptcy-filing",
+      "pubDate": "Fri, 23 Oct 2026 19:15:04 EST",
+      "summary": "LIV Golf CEO Scott O'Neil was given a retention payment of $6.375 million less than three months before the tour filed for Chapter 11 bankruptcy protection.",
       "source": "ESPN",
-      "image": "https://a.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F1023%2Fr1735152_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-10-23T16:04:26-05:00"
-    },
-    {
-      "title": "Bears TE Kmet to be 'sorely missed' after season-ending knee injury",
-      "link": "https://www.espn.com/nfl/story/_/id/50259989/bears-te-cole-kmet-season-knee-injury-vs-pats",
-      "pubDate": "Fri, 23 Oct 2026 16:04:26 EST",
-      "summary": "Bears tight end Cole Kmet will miss the remainder of the 2026 season after he suffered a serious right knee injury during Chicago's 30-24 win over New England.",
-      "source": "ESPN",
-      "image": "https://a2.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F1023%2Fr1734885_1296x729_16%2D9.jpg",
-      "pubDateIso": "2026-10-23T16:04:26-05:00"
+      "image": "https://a3.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0819%2Fr1704035_1296x729_16%2D9.jpg",
+      "pubDateIso": "2026-10-23T19:15:04-05:00"
     }
   ]
 }
